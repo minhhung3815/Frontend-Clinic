@@ -1,0 +1,41 @@
+.card-item {
+  .ant-card-body {
+    display: flex;
+    justify-content: space-between;
+
+    &::before,
+    &::after {
+      content: unset;
+    }
+  }
+
+  .circle {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .total {
+      color: rgba(0, 0, 0, 0.85);
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 29px;
+    }
+
+    .button {
+      cursor: pointer;
+      border-radius: 4px;
+      color: #FFFFFF;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 20px;
+      padding: 4px 24px;
+    }
+  }
+}

@@ -12,7 +12,10 @@ const LoginPage = () => {
 
   const onFinish = async (values) => {
     try {
-      const response = await Axios.post("/user/login", values);
+      const response = await Axios.post("/user/login", values, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
 
       if (response?.data?.success) {
         // console.log(JSON.stringify(response?.data));

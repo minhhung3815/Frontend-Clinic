@@ -13,7 +13,10 @@ const LoginPage = () => {
   const onFinish = async (values) => {
     try {
       const response = await Axios.post("/user/login", values, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
         withCredentials: true,
       });
 

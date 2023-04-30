@@ -7,6 +7,7 @@ const useRefreshToken = () => {
   const refresh = async () => {
     const response = await Axios.get("/refresh", {
       withCredentials: true,
+      "Access-Control-Allow-Credentials": true,
     });
     setAuth((prev) => {
       return {

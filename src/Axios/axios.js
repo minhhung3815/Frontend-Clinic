@@ -14,6 +14,7 @@ export const axiosPrivate = axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Credentials": true,
   },
 });
 

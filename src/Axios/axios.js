@@ -5,7 +5,7 @@ import { notification } from "antd";
 // import { duration } from "moment";
 
 const Instance = axios.create({
-  baseURL: DeployedHttps,
+  baseURL: LocalHttp,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -13,7 +13,7 @@ const Instance = axios.create({
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: DeployedHttps,
+  baseURL: LocalHttp,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

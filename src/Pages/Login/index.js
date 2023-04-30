@@ -3,6 +3,7 @@ import Axios from "../../Axios/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input } from "antd";
 import useAuth from "Hook/useAuth";
+import axios from "axios";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -12,13 +13,17 @@ const LoginPage = () => {
 
   const onFinish = async (values) => {
     try {
-      const response = await Axios.post("/user/login", values, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "https://clinic-project-alp.vercel.app/user/login",
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+          withCredentials: true,
+        }
+      );
 
       if (response?.data?.success) {
         // console.log(JSON.stringify(response?.data));

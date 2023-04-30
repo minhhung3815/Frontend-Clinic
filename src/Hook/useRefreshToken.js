@@ -1,3 +1,4 @@
+import axios from "axios";
 import Axios from "../Axios/axios";
 import useAuth from "./useAuth";
 
@@ -5,10 +6,17 @@ const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const response = await Axios.get("/refresh", {
-      withCredentials: true,
-      "Access-Control-Allow-Credentials": true,
-    });
+    const response = await axios.get(
+      "https://clinic-project-alp.vercel.app/refresh",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+        withCredentials: true,
+        // "Access-Control-Allow-Credentials": true,
+      }
+    );
     setAuth((prev) => {
       return {
         ...prev,

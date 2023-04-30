@@ -1,0 +1,18 @@
+export const Services = [
+  { id: 1, value: "Regular check-ups and cleanings", price: 20.0 },
+  { id: 2, value: "Fillings", price: 20.0 },
+  { id: 3, value: "Root canal treatment", price: 30.0 },
+  { id: 4, value: "Teeth whitening", price: 50.0 },
+  { id: 5, value: "Crowns and bridges", price: 40.0 },
+  { id: 6, value: "Dental implants", price: 520.0 },
+  { id: 7, value: "Orthodontics", price: 220.01 },
+  { id: 8, value: "Gum disease treatment", price: 20.09 },
+  { id: 9, value: "Tooth extractions", price: 15.0 },
+  { id: 10, value: "Dentures", price: 20.0 },
+  { id: 11, value: "Pediatric dentistry", price: 120.0 },
+  { id: 12, value: "Emergency dental care", price: 220.0 },
+  { id: 13, value: "Oral cancer screening", price: 620.0 },
+  { id: 14, value: "Dental X-rays", price: 120.0 },
+  { id: 15, value: "Oral surgery", price: 210.0 },
+  { id: 16, value: "Other", price: 0.0 },
+];

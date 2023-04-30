@@ -1,40 +1,83 @@
-import DoctorCard from 'Component/DoctorCard'
-import './style.scss'
-import { Button } from 'antd'
-import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import Axios from "../../Axios/axios";
+import DoctorCard from "Component/DoctorCard";
+import "./style.scss";
+import { Button, Empty } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import UserContext from "Context/createContext";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
+import Loading from "Layout/Loading";
+import { MoreOutlined, UserAddOutlined } from "@ant-design/icons";
+
 const Doctors = () => {
-  const navigate = useNavigate()
-  const [doctorList, setDoctorList] = useState([])
+  const [loading, setLoading] = useState(true);
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const [doctorList, setDoctorList] = useState([]);
+
   function handleClick() {
-    navigate('/edit')
+    navigate("/new-doctor");
   }
   useEffect(() => {
-    Axios.get('/user/account/doctor')
-      .then((res) => {
-        setDoctorList(res.data.data)
-      })
-      .catch((error) => {
-        console.log(error)
-        // navigate('/error')
-      })
-  }, [])
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getDoctor = async () => {
+      try {
+        const response = await axiosPrivate.get("/user/account/doctor", {
+          signal: controller.signal,
+        });
+        isMounted && setDoctorList(response.data.data);
+      } catch (error) {
+        console.log(error);
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getDoctor();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+    // axiosPrivate
+    //   .get("/user/account/doctor")
+    //   .then((res) => {
+    //     setDoctorList(res.data.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     // navigate('/error')
+    //   });
+  }, []);
   return (
     <>
-      <div className='nav'>
-        <div>
-          <p style={{ fontSize: '25px' }}>Doctors</p>
+      <UserContext.Provider value={{ doctorList, setDoctorList }}>
+        <div className="nav">
+          <div>
+            <p style={{ fontSize: "25px" }}>Doctors</p>
+          </div>
+          <div>
+            <UserAddOutlined
+              type="primary"
+              style={{ fontSize: "16px" }}
+              onClick={handleClick}
+            />
+          </div>
         </div>
-        <div>
-          <Button type='primary' style={{ fontSize: '16px' }} onClick={handleClick}>
-            Add Doctor
-          </Button>
-        </div>
-      </div>
-      <DoctorCard list={doctorList} />
+        {loading ? (
+          <Loading size="large" />
+        ) : doctorList.length > 0 ? (
+          <>
+            <DoctorCard />
+          </>
+        ) : (
+          <Empty style={{ marginTop: "10%" }} />
+        )}
+      </UserContext.Provider>
     </>
-  )
-}
+  );
+};
 
-export default Doctors
+export default Doctors;

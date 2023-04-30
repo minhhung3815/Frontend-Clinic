@@ -4,12 +4,16 @@ import Chart from "Component/chart/Chart";
 import TableUser from "Component/TableUser";
 import { useEffect, useState } from "react";
 import { UserData } from "Utils/Data";
-import Axios from "../../Axios/axios";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
 import NotFound from "Pages/Errors/NotFound";
+import NewContext from "Context/createContext";
 import "./style.scss";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [loading, setLoading] = useState(true);
+  const axiosPrivate = useAxiosPrivate();
   const [userList, setUserList] = useState([]);
   const [userData] = useState({
     labels: UserData.map((data) => data.year),
@@ -41,18 +45,33 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    Axios.get("/user/account/user")
-      .then((res) => {
-        setUserList(res.data.data);
-      })
-      .catch((error) => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getUser = async () => {
+      try {
+        const response = await axiosPrivate.get("/user/account/user", {
+          signal: controller.signal,
+        });
+        isMounted && setUserList(response.data.data);
+      } catch (error) {
         console.log(error);
-        // navigate('/error')
-      });
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setLoading(true);
+      }
+    };
+
+    getUser();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
 
   return (
-    <div>
+    <NewContext.Provider value={{ userList, setUserList }}>
       <CardList />
       <div className="chart-container">
         <div className="chart-item">
@@ -64,8 +83,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <TableUser list={userList} />
-    </div>
+      <TableUser />
+    </NewContext.Provider>
   );
 };
 

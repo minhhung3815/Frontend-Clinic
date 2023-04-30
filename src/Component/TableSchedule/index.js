@@ -1,91 +1,113 @@
-import { Space, Table, Tag, Button } from 'antd';
-// import { MoreOutlined } from '@ant-design/icons'
+import { Space, Table, Tag, Button, notification } from "antd";
+import { FormOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
 
 const TableSchedule = () => {
+  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const [scheduleList, setScheduleList] = useState([]);
 
-  function handleClick() {
-    navigate("/home");
-  }
+  const handleDelete = async (id) => {
+    try {
+      const response = await axiosPrivate.delete(`/schedule/delete/${id}`);
+      if (response.data.success === true) {
+        setScheduleList(scheduleList.filter((user) => user._id !== id));
+        notification.success({
+          message: "Delete notification",
+          description: response.data.data,
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: "Delete notification",
+        description: "Something went wrong",
+      });
+    }
+  };
+
+  const handleClick = (id) => {
+    navigate(`/edit-schedule/${id}`);
+  };
 
   const columns = [
     {
-      title: 'Doctor Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <div>{text}</div>,
+      title: "Doctor Name",
+      dataIndex: "name",
+      key: "name",
+      render: (_, record) => <div>{record.doctor_id?.name}</div>,
     },
     {
-      title: 'Available Days	',
-      dataIndex: 'day',
-      key: 'day',
+      title: "Available Days",
+      render: (record) => {
+        const unique = [
+          ...new Map(record.working_time.map((m) => [m.date, m])).values(),
+        ];
+        return (
+          <>
+            {unique.map((data) => {
+              let color = "green";
+              data.date === "monday"
+                ? (color = "green")
+                : data.date === "tuesday"
+                ? (color = "purple")
+                : data.date === "wednesday"
+                ? (color = "blue")
+                : data.date === "thursday"
+                ? (color = "orange")
+                : data.date === "friday"
+                ? (color = "pink")
+                : data.date === "saturday"
+                ? (color = "red")
+                : data.date === "sunday"
+                ? (color = "cyan")
+                : (color = "white");
+              return (
+                <Tag key={data._id} color={color}>
+                  {data.date.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </>
+        );
+      },
     },
     {
-      title: 'Available Time	',
-      key: 'time',
-      dataIndex: 'time',
-      render: (text) => <div>{text}</div>,
-    },
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'status',
-      render: (_, { status }) => (
-        <>
-          {status.map((tag) => {
-            let color = 'green';
-            if (tag === 'Inactive') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: 'Action',
+      title: "Action",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link" onClick={handleClick}>Edit</Button>
-          <Button type="text">Delete</Button>
+          <FormOutlined
+            type="link"
+            onClick={() => {
+              handleClick(record._id);
+            }}
+            style={{ color: "green", fontSize: "20px" }}
+          />
+          <CloseCircleOutlined
+            type="link"
+            onClick={() => {
+              handleDelete(record._id);
+            }}
+            style={{ color: "red", fontSize: "20px" }}
+          />
         </Space>
       ),
     },
   ];
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      day: '30 Dec 2018',
-      time: '10:00am - 11:00am',
-      status: ['Active'],
-    },
-    {
-      key: '2',
-      name: 'John Brown',
-      age: 32,
-      day: '30 Dec 2018',
-      time: '10:00am - 11:00am',
-      status: ['Inactive'],
-    },
-    {
-      key: '3',
-      name: 'John Brown',
-      age: 32,
-      day: '30 Dec 2018',
-      time: '10:00am - 11:00am',
-      status: ['Inactive'],
-    },
-  ]
-  return (
-    <Table columns={columns} dataSource={data} />
-  )
-}
 
-export default TableSchedule
+  useEffect(() => {
+    axiosPrivate.get("/schedule/all")
+      .then((res) => {
+        const scheduleList = res.data.data;
+        // console.log(scheduleList);
+        setScheduleList(scheduleList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  return <Table columns={columns} dataSource={scheduleList} rowKey="_id" />;
+};
+
+export default TableSchedule;

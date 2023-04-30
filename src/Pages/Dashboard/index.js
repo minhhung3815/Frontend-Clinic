@@ -53,7 +53,7 @@ const Dashboard = () => {
         const response = await axiosPrivate.get("/user/account/user", {
           signal: controller.signal,
         });
-        isMounted && setUserList(response.data.data);
+        isMounted && setUserList(response.data?.data);
       } catch (error) {
         console.log(error);
         // navigate("/login", { state: { from: location }, replace: true });

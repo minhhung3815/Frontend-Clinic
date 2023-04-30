@@ -1,8 +1,5 @@
 import axios from "axios";
 import { LocalHttp, DeployedHttps } from "./Url";
-import { useNavigate } from "react-router-dom";
-import { notification } from "antd";
-// import { duration } from "moment";
 
 const Instance = axios.create({
   baseURL: DeployedHttps,

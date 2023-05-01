@@ -6,17 +6,10 @@ const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const response = await axios.get(
-      "https://clinic-project-alp.vercel.app/refresh",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-        withCredentials: true,
-        // "Access-Control-Allow-Credentials": true,
-      }
-    );
+    const jwt = localStorage.getItem("jwt");
+    const response = await Axios.post("/refresh", jwt, {
+      withCredentials: true,
+    });
     setAuth((prev) => {
       return {
         ...prev,

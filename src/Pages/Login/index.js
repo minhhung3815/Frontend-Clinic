@@ -88,10 +88,8 @@ const LoginPage = () => {
             },
           ]}
         >
-          <>
-            <Input.Password />
-            {/* <a href="/register">Create an account?</a> */}
-          </>
+          <Input.Password />
+          {/* <a href="/register">Create an account?</a> */}
         </Form.Item>
         {/* <Form.Item
         name="persist"

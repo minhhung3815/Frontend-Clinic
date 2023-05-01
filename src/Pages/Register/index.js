@@ -12,7 +12,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import "style.scss";
 import locale from "antd/es/date-picker/locale/en_US";
@@ -28,12 +28,10 @@ const formItemLayout = {
     sm: { span: 16 },
   },
 };
-const CreateUserAndAdmin = () => {
+const RegisterPage = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const role = searchParams.get("role");
   const [form] = Form.useForm();
   const onFinish = async (values) => {
     // console.log(values);
@@ -47,21 +45,27 @@ const CreateUserAndAdmin = () => {
     formData.append("role", values.role?.toLowerCase());
     formData.append("image", values.avatar[0]?.originFileObj);
     try {
-      const response = await axiosPrivate.post(`/user/create/account`, formData, {
+      const response = await axiosPrivate.post(`/user/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      notification.success({
-        message: "New user",
-        description: response.data.data,
-      });
-      navigate(`/${values.role?.toLowerCase()}s`);
+      if (response?.data?.success) {
+        notification.success({
+          message: "Register",
+          description: "Check your email for verification",
+        });
+      } else {
+        console.log(response);
+        notification.error({
+          message: "Register",
+          description: response?.data?.data,
+        });
+      }
     } catch (error) {
-      console.log(error);
       notification.error({
-        message: "New user",
-        description: "Create new user failed",
+        message: "Register",
+        description: "Register failed",
       });
     }
   };
@@ -199,27 +203,6 @@ const CreateUserAndAdmin = () => {
       </Form.Item>
 
       <Form.Item
-        name="role"
-        label="Role"
-        rules={[
-          {
-            required: true,
-            message: "Please select your role!",
-          },
-        ]}
-        initialValue={role ? role.toUpperCase() : null}
-      >
-        {role ? (
-          <Input placeholder="Role" disabled style={{ textAlign: "left" }} />
-        ) : (
-          <Select placeholder="Role" style={{ textAlign: "left" }}>
-            <Option value="Manager">Manager</Option>
-            <Option value="User">User</Option>
-          </Select>
-        )}
-      </Form.Item>
-
-      <Form.Item
         name="avatar"
         label="Avatar"
         valuePropName="fileList"
@@ -262,4 +245,4 @@ const CreateUserAndAdmin = () => {
   );
 };
 
-export default CreateUserAndAdmin;
+export default RegisterPage;

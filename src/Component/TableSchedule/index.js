@@ -1,13 +1,14 @@
 import { Space, Table, Tag, Button, notification } from "antd";
 import { FormOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import NewContext from "Context/createContext";
+import { useContext } from "react";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 
 const TableSchedule = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const [scheduleList, setScheduleList] = useState([]);
+  const { scheduleList, setScheduleList } = useContext(NewContext);
 
   const handleDelete = async (id) => {
     try {
@@ -96,17 +97,6 @@ const TableSchedule = () => {
     },
   ];
 
-  useEffect(() => {
-    axiosPrivate.get("/schedule/all")
-      .then((res) => {
-        const scheduleList = res.data.data;
-        // console.log(scheduleList);
-        setScheduleList(scheduleList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
   return <Table columns={columns} dataSource={scheduleList} rowKey="_id" />;
 };
 

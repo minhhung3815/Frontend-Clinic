@@ -157,7 +157,7 @@ const EditUser = () => {
         </Select>
       </Form.Item>
 
-      <Form.Item name="date_of_birth" label="Date">
+      <Form.Item name="date_of_birth" label="Birth">
         <DatePicker style={{ width: "100%" }} locale={locale} />
       </Form.Item>
 

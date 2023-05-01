@@ -177,8 +177,8 @@ const EditDoctor = () => {
         </Select>
       </Form.Item>
 
-      <Form.Item name="date_of_birth" label="Date">
-        <DatePicker style={{ width: '100%' }} locale={locale} />
+      <Form.Item name="date_of_birth" label="Birth">
+        <DatePicker style={{ width: "100%" }} locale={locale} />
       </Form.Item>
 
       <Form.Item

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Axios from "../../Axios/axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input } from "antd";
 import useAuth from "Hook/useAuth";
 
@@ -88,9 +88,11 @@ const LoginPage = () => {
             },
           ]}
         >
-          <Input.Password />
+          <>
+            <Input.Password />
+            <a href="/register">Create an account?</a>
+          </>
         </Form.Item>
-
         {/* <Form.Item
         name="persist"
         valuePropName="checked"

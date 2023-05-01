@@ -5,21 +5,38 @@ import useAxiosPrivate from "Hook/useAxiosPrivate";
 import NewContext from "Context/createContext";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
+import Loading from "Layout/Loading";
 
 const Payments = () => {
+  const [loading, setLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [paymentList, setPaymentList] = useState([]);
 
   useEffect(() => {
-    axiosPrivate.get("/payment/all")
-      .then((res) => {
-        const paymentData = res.data.data;
-        setPaymentList(paymentData);
-      })
-      .catch((error) => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getPayment = async () => {
+      try {
+        const response = await axiosPrivate.get("/payment/all", {
+          signal: controller.signal,
+        });
+        isMounted && setPaymentList(response?.data?.data);
+      } catch (error) {
         console.log(error);
-      });
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getPayment();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
   return (
     <>
@@ -29,7 +46,7 @@ const Payments = () => {
             <p style={{ fontSize: "25px" }}>Medicines</p>
           </div>
         </div>
-        <PaymentTable />
+        {loading ? <Loading size="large" /> : <PaymentTable />}
       </NewContext.Provider>
     </>
   );

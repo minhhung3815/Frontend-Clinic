@@ -189,7 +189,7 @@ const CreateDoctor = () => {
 
       <Form.Item
         name="date_of_birth"
-        label="Date"
+        label="Birth"
         rules={[{ required: true, message: "Please provide your birthday" }]}
       >
         <DatePicker style={{ width: "100%" }} locale={locale} />

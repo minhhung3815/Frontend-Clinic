@@ -9,6 +9,7 @@ import NotFound from "Pages/Errors/NotFound";
 import NewContext from "Context/createContext";
 import "./style.scss";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "Layout/Loading";
 const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,12 +54,12 @@ const Dashboard = () => {
         const response = await axiosPrivate.get("/user/account/user", {
           signal: controller.signal,
         });
-        isMounted && setUserList(response.data?.data);
+        isMounted && setUserList(response?.data?.data);
       } catch (error) {
         console.log(error);
         // navigate("/login", { state: { from: location }, replace: true });
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     };
 
@@ -83,7 +84,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <TableUser />
+      {loading ? <Loading size="default" /> : <TableUser />}
     </NewContext.Provider>
   );
 };

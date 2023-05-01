@@ -90,7 +90,7 @@ const TableAppointment = () => {
       title: "Appointment Date",
       key: "date",
       render: ({ appointment_date }) => {
-        const apmDate = new Date(appointment_date.date);
+        const apmDate = new Date(appointment_date);
         const day = apmDate.getDate().toString().padStart(2, "0");
         const month = (apmDate.getMonth() + 1).toString().padStart(2, "0");
         const year = apmDate.getFullYear();
@@ -101,15 +101,15 @@ const TableAppointment = () => {
     {
       title: "Appointment Time",
       key: "time",
-      render: ({ appointment_date }) => {
-        const startTime = new Date(appointment_date.startTime);
-        const endTime = new Date(appointment_date.endTime);
-        const start = startTime.toLocaleTimeString([], {
+      render: ({ startTime, endTime }) => {
+        const sTime = new Date(startTime);
+        const eTime = new Date(endTime);
+        const start = sTime.toLocaleTimeString([], {
           hour: "numeric",
           minute: "2-digit",
           hour12: true,
         });
-        const end = endTime.toLocaleTimeString([], {
+        const end = eTime.toLocaleTimeString([], {
           hour: "numeric",
           minute: "2-digit",
           hour12: true,

@@ -27,10 +27,12 @@ import SentMail from "Pages/MailSent";
 import InboxMail from "Pages/MailInbox";
 import LoginPage from "Pages/Login";
 import PersistLogin from "Route/persistLogin";
-import Unauthorized from "Pages/Unauthorized";
+import Unauthorized from "Pages/Errors/Unauthorized";
+import Error500 from "Pages/Errors/500Error";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./style.scss";
 import PrivateRoute from "Route/privateRoute";
+import RegisterPage from "Pages/Register";
 
 const roles = {
   role1: "manager",
@@ -45,8 +47,12 @@ const App = () => {
   return (
     <Routes>
       {/** public routes */}
+      <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/notfound" element={<NotFound />} />
+      <Route path="/error500" element={<Error500 />} />
+
       {/** protected routes */}
       <Route element={<PersistLogin />}>
         <Route path="/" element={<AppLayout />}>

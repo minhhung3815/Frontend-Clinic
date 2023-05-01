@@ -31,10 +31,11 @@ const formItemLayout = {
   },
 };
 
-const EditAppointment = () => {
+const NewAppointment = () => {
   const [doctorId, setDoctorId] = useState("");
   const [userId, setUserId] = useState("");
   const [service, setService] = useState({});
+  const [doctorSelected, serDoctorSelected] = useState("");
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const axiosPrivate = useAxiosPrivate();
@@ -46,11 +47,9 @@ const EditAppointment = () => {
       patient_name: values.patientname,
       doctor_id: doctorId,
       doctor_name: values.doctor,
-      appointment_date: {
-        date: values.date,
-        startTime: values.startTime,
-        endTime: new Date(time.getTime() + 60 * 60 * 1000),
-      },
+      appointment_date: values.date,
+      startTime: values.startTime,
+      endTime: new Date(time.getTime() + 60 * 60 * 1000),
       service: {
         type: service.value,
         price: service.price,
@@ -105,7 +104,8 @@ const EditAppointment = () => {
   const optionsUser = userList.map((user) => renderOptionEmail(user));
 
   useEffect(() => {
-    axiosPrivate.get("/user/account/doctor")
+    axiosPrivate
+      .get("/user/account/doctor")
       .then((res) => {
         const doctorData = res.data.data;
         setDoctorList(doctorData);
@@ -114,7 +114,8 @@ const EditAppointment = () => {
   }, []);
 
   useEffect(() => {
-    axiosPrivate.get("/user/list/all/account")
+    axiosPrivate
+      .get("/user/list/all/account")
       .then((res) => {
         const userData = res.data.data;
         setUserList(userData);
@@ -236,4 +237,4 @@ const EditAppointment = () => {
   );
 };
 
-export default EditAppointment;
+export default NewAppointment;

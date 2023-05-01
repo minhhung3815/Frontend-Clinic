@@ -4,12 +4,27 @@ import { headerStyle } from "./handler";
 import Logo from "Static/Images/Logo.svg";
 import useAuth from "Hook/useAuth";
 import ButtonGroup from "antd/es/button/button-group";
+import Axios from "../../Axios/axios";
 import "./style.css";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
-  const handleLogOut = () => {
-    setAuth({});
+  const handleLogOut = async () => {
+    try {
+      const jwt = localStorage.getItem("jwt");
+      const response = await Axios.post(
+        "/user/logout",
+        { jwt },
+        { withCredentials: true }
+      );
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("persist");
+      setAuth({});
+    } catch (error) {
+      console.log(error);
+    }
     // localStorage.removeItem("isLogined");
     // localStorage.removeItem("token");
     // localStorage.removeItem("userData");
@@ -30,7 +45,13 @@ const Header = () => {
         ) : (
           <ButtonGroup style={{ margiLeft: "50%" }}>
             <Space align="baseline">
-              <Button>Login</Button>
+              <Button
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Login
+              </Button>
               <Button>Register</Button>
             </Space>
           </ButtonGroup>

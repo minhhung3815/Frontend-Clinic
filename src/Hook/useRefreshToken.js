@@ -7,9 +7,13 @@ const useRefreshToken = () => {
 
   const refresh = async () => {
     const jwt = localStorage.getItem("jwt");
-    const response = await Axios.post("/refresh", jwt, {
-      withCredentials: true,
-    });
+    const response = await Axios.post(
+      "/refresh",
+      { jwt },
+      {
+        withCredentials: true,
+      }
+    );
     setAuth((prev) => {
       return {
         ...prev,

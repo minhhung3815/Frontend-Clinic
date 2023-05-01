@@ -48,11 +48,9 @@ const EditAppointment = () => {
       doctor_id: doctorId,
       doctor_name: values.doctor,
       service: values.service,
-      appointment_date: {
-        date: values.date,
-        startTime: values.startTime,
-        endTime: new Date(time.getTime() + 60 * 60 * 1000),
-      },
+      appointment_date: values.date,
+      startTime: values.startTime,
+      endTime: new Date(time.getTime() + 60 * 60 * 1000),
       description: values.description,
       status: values.status,
     };

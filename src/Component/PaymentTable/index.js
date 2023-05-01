@@ -22,7 +22,7 @@ const PaymentTable = () => {
   const handleDelete = async (id) => {
     try {
       const response = await axiosPrivate.delete(`/payment/delete/${id}`);
-      if (response.data.success) {
+      if (response?.data?.success) {
         setPaymentList(paymentList.filter((user) => user._id !== id));
         notification.success({
           message: "Delete notification",
@@ -48,19 +48,19 @@ const PaymentTable = () => {
     {
       title: "APT-ID",
       render: (_, { appointment_id }) => {
-        return appointment_id.appointmentId;
+        return appointment_id?.appointmentId;
       },
     },
     {
       title: "Patient Name",
       render: (_, { appointment_id }) => {
-        return appointment_id.patient_name;
+        return appointment_id?.patient_name;
       },
     },
     {
       title: "Patient Email",
       render: (_, { user_id }) => {
-        return user_id.email;
+        return user_id?.email;
       },
     },
     {

@@ -7,10 +7,12 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import NewContext from "Context/createContext";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
+import Loading from "Layout/Loading";
 
 const Medicines = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [medicineList, setMedicineList] = useState([]);
 
   const handleClick = () => {
@@ -18,14 +20,29 @@ const Medicines = () => {
   };
 
   useEffect(() => {
-    axiosPrivate.get("/medicine/all")
-      .then((res) => {
-        const medicineData = res.data.data;
-        setMedicineList(medicineData);
-      })
-      .catch((error) => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getMedicine = async () => {
+      try {
+        const response = await axiosPrivate.get("/medicine/all", {
+          signal: controller.signal,
+        });
+        isMounted && setMedicineList(response?.data?.data);
+      } catch (error) {
         console.log(error);
-      });
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getMedicine();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
   return (
     <>
@@ -42,7 +59,7 @@ const Medicines = () => {
             />
           </div>
         </div>
-        <MedicineTable />
+        {loading ? <Loading size="large" /> : <MedicineTable />}
       </NewContext.Provider>
     </>
   );

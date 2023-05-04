@@ -39,7 +39,7 @@ const formItemLayout = {
     sm: { span: 16 },
   },
 };
-const NewPrescription = () => {
+const EditPrescription = () => {
   const [doctorId, setDoctorId] = useState("");
   const [price, setPrice] = useState(0);
   const [userId, setUserId] = useState("");
@@ -47,6 +47,9 @@ const NewPrescription = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const appointmentId = searchParams.get("appointmentId")
     ? searchParams.get("appointmentId")
+    : "";
+  const prescriptionId = searchParams.get("prescriptionId")
+    ? searchParams.get("prescriptionId")
     : "";
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
@@ -62,7 +65,7 @@ const NewPrescription = () => {
       });
       notification.success({
         message: "New prescription",
-        description: response?.data?.data,
+        description: response.data.data,
       });
       form.resetFields();
       navigate(-1);
@@ -111,6 +114,22 @@ const NewPrescription = () => {
       })
       .catch((error) => console.error(error));
   }, []);
+
+  useEffect(() => {
+    if (prescriptionId) {
+      axiosPrivate
+        .get(`/prescription/list/detail/${prescriptionId}`)
+        .then((res) => {
+          const prescriptionData = res?.data?.data;
+          console.log(prescriptionData);
+          form.setFieldsValue({
+            diagnose: prescriptionData?.diagnose,
+            medications: prescriptionData?.medications,
+            notes: prescriptionData?.notes,
+          });
+        });
+    }
+  }, [prescriptionId, form]);
 
   return (
     <>
@@ -229,4 +248,4 @@ const NewPrescription = () => {
   );
 };
 
-export default NewPrescription;
+export default EditPrescription;

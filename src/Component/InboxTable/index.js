@@ -11,19 +11,19 @@ import useAxiosPrivate from "Hook/useAxiosPrivate";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SentTable = () => {
+const InboxTable = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const { sentList, setSentList } = useContext(NewContext);
+  const { requestList, setRequestList } = useContext(NewContext);
   const handleClick = (id) => {
-    navigate(`/request/sent/${id}`);
+    navigate(`/request/inbox/${id}`);
   };
 
   const handleDelete = async (id) => {
     try {
       const response = await axiosPrivate.delete(`/request/delete/${id}`);
       if (response.data.success) {
-        setSentList(sentList.filter((user) => user._id !== id));
+        setRequestList(requestList.filter((user) => user._id !== id));
         notification.success({
           message: "Success",
           description: response?.data?.data,
@@ -31,7 +31,7 @@ const SentTable = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       notification.error({
         message: "Error",
         description: "Something went wrong",
@@ -41,9 +41,9 @@ const SentTable = () => {
   };
   const columns = [
     {
-      title: "To",
-      render: (_, { receiver_id }) => {
-        return <span>{receiver_id.email}</span>;
+      title: "From",
+      render: (_, { user_id }) => {
+        return <span>{user_id?.email}</span>;
       },
     },
     {
@@ -75,7 +75,7 @@ const SentTable = () => {
       title: "Action",
       render: (_, record) => (
         <Space size="middle">
-          <EyeOutlined
+          <EditOutlined
             type="link"
             onClick={() => {
               handleClick(record._id);
@@ -94,7 +94,7 @@ const SentTable = () => {
     },
   ];
 
-  return <Table columns={columns} dataSource={sentList} rowKey="_id" />;
+  return <Table columns={columns} dataSource={requestList} rowKey="_id" />;
 };
 
-export default SentTable;
+export default InboxTable;

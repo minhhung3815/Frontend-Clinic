@@ -206,11 +206,6 @@ const NewAppointment = () => {
           }}
           style={{ textAlign: "left" }}
         >
-          {/* {Services.map((data) => (
-            <Select.Option key={data.id} value={data.service}>
-              {data.service}
-            </Select.Option>
-          ))} */}
         </Select>
       </Form.Item>
 

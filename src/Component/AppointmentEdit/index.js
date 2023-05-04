@@ -36,9 +36,20 @@ const EditAppointment = () => {
   const [doctorId, setDoctorId] = useState("");
   const [userId, setUserId] = useState("");
   const { appointmentId } = useParams();
+  const [service, setService] = useState({});
+  const [status, setStatus] = useState(null);
 
   const navigate = useNavigate();
   const [form] = Form.useForm();
+
+  const handleStatusChange = (e) => {
+    const value = e.target.value;
+    setStatus(value);
+    form.setFieldsValue({ status: value });
+  };
+
+  const isFinishedDisabled = status === "cancelled";
+  const isCancelledDisabled = status === "finished";
 
   const onFinish = async (values) => {
     const time = new Date(values.startTime);
@@ -47,11 +58,14 @@ const EditAppointment = () => {
       patient_name: values.patientname,
       doctor_id: doctorId,
       doctor_name: values.doctor,
-      service: values.service,
       appointment_date: values.date,
       startTime: values.startTime,
       endTime: new Date(time.getTime() + 60 * 60 * 1000),
       description: values.description,
+      service: {
+        type: service.value,
+        price: service.price,
+      },
       status: values.status,
     };
     try {
@@ -107,15 +121,14 @@ const EditAppointment = () => {
         const appointmentData = res.data.data;
         setDoctorId(appointmentData.doctor_id?._id);
         setUserId(appointmentData.user_id?._id);
+        setStatus(appointmentData.status);
         form.setFieldsValue({
           patientname: appointmentData.patient_name,
           doctor: appointmentData.doctor_id?.name,
-          date: moment(new Date(appointmentData.appointment_date.date)),
-          startTime: moment(
-            new Date(appointmentData.appointment_date.startTime)
-          ),
+          date: moment(new Date(appointmentData.appointment_date)),
+          startTime: moment(new Date(appointmentData.startTime)),
           email: appointmentData.user_id?.email,
-          service: appointmentData.service,
+          service: appointmentData.service?.type,
           description: appointmentData.description,
           status: appointmentData.status,
         });
@@ -232,13 +245,16 @@ const EditAppointment = () => {
         label="Service"
         rules={[{ required: true, message: "Please select a service" }]}
       >
-        <Select placeholder="Select service" style={{ textAlign: "left" }}>
-          {Services.map((data) => (
-            <Select.Option key={data.id} value={data.service}>
-              {data.service}
-            </Select.Option>
-          ))}
-        </Select>
+        <Select
+          placeholder="Select service"
+          options={Services}
+          showSearch
+          allowClear
+          onSelect={(_, value) => {
+            setService({ ...value });
+          }}
+          style={{ textAlign: "left" }}
+        />
       </Form.Item>
 
       <Form.Item
@@ -247,9 +263,12 @@ const EditAppointment = () => {
         rules={[{ required: true, message: "Please select status!" }]}
       >
         <Radio.Group>
-          <Radio value="waiting">Waiting</Radio>
-          <Radio value="finished">Fininsh</Radio>
-          <Radio value="cancelled">Cancel</Radio>
+          <Radio value="finished" disabled={isFinishedDisabled}>
+            Fininsh
+          </Radio>
+          <Radio value="cancelled" disabled={isCancelledDisabled}>
+            Cancel
+          </Radio>
         </Radio.Group>
       </Form.Item>
 

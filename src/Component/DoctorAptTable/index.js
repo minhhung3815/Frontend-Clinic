@@ -6,51 +6,76 @@ import {
   DeleteOutlined,
   FileTextOutlined,
   EyeOutlined,
+  CheckOutlined,
 } from "@ant-design/icons";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
 import NewContext from "Context/createContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 const TableAppointment = () => {
   const axiosPrivate = useAxiosPrivate();
   const { appointmentList, setAppointmentList } = useContext(NewContext);
   const navigate = useNavigate();
 
-  const handleAddPrescription = (id) => {
-    navigate({ pathname: "/new-prescription", search: `?id=${id}` });
-  };
-
-  const handleMakePayment = async (id) => {
-    try {
-      await axiosPrivate.post("/payment/new", { appointmentId: id });
-    } catch (error) {
-      console.log(error);
+  const handleAddPrescription = (appointmentId, prescriptionId = "") => {
+    if (!prescriptionId) {
+      navigate(`/new-prescription?appointmentId=${appointmentId}`);
+    } else {
+      notification.warning({
+        message: "Warning",
+        description: "Appointment already has prescription.",
+      });
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleUpdate = (appointmentId, prescriptionId = "") => {
+    if (prescriptionId) {
+      navigate(
+        `/edit-prescription?appointmentId=${appointmentId}&prescriptionId=${prescriptionId}`
+      );
+    } else {
+      notification.warning({
+        message: "Warning",
+        description:
+          "Appointment has no prescription. Please create a new one before edit",
+      });
+    }
+  };
+
+  const handleClick = async (id, record) => {
     try {
-      const response = await axiosPrivate.delete(`/appointment/delete/${id}`);
-      if (response.data.success === true) {
-        setAppointmentList(appointmentList.filter((user) => user._id !== id));
+      const response = await axiosPrivate.put(
+        `/appointment/update/status/${id}`,
+        {
+          ...record,
+          status: "examined",
+        }
+      );
+      if (response?.data?.success) {
+        setAppointmentList((prevItems) =>
+          prevItems.map((item) =>
+            item._id === id ? { ...item, status: "examined" } : item
+          )
+        );
         notification.success({
-          message: "Delete notification",
-          description: response.data.data,
+          message: "Success",
+          description: response?.data?.data,
+        });
+      } else {
+        notification.error({
+          message: "Error",
+          description: "Something went wrong",
         });
       }
     } catch (error) {
       console.log(error);
       notification.error({
-        message: "Delete notification",
+        message: "Error",
         description: "Something went wrong",
       });
     }
   };
-
-  function handleClick(id) {
-    navigate(`/edit-appointment/${id}`);
-  }
 
   const columns = [
     {
@@ -69,7 +94,7 @@ const TableAppointment = () => {
       title: "Appointment Date",
       key: "date",
       render: ({ appointment_date }) => {
-        const apmDate = new Date(appointment_date.date);
+        const apmDate = new Date(appointment_date);
         const day = apmDate.getDate().toString().padStart(2, "0");
         const month = (apmDate.getMonth() + 1).toString().padStart(2, "0");
         const year = apmDate.getFullYear();
@@ -80,15 +105,15 @@ const TableAppointment = () => {
     {
       title: "Appointment Time",
       key: "time",
-      render: ({ appointment_date }) => {
-        const startTime = new Date(appointment_date.startTime);
-        const endTime = new Date(appointment_date.endTime);
-        const start = startTime.toLocaleTimeString([], {
+      render: ({ startTime, endTime }) => {
+        const s = new Date(startTime);
+        const e = new Date(endTime);
+        const start = s.toLocaleTimeString([], {
           hour: "numeric",
           minute: "2-digit",
           hour12: true,
         });
-        const end = endTime.toLocaleTimeString([], {
+        const end = e.toLocaleTimeString([], {
           hour: "numeric",
           minute: "2-digit",
           hour12: true,
@@ -105,7 +130,7 @@ const TableAppointment = () => {
           ? (color = "blue")
           : status === "finished"
           ? (color = "green")
-          : (color = "volcano");
+          : (color = "purple");
         return (
           <>
             <Tag color={color}>{status.toUpperCase()}</Tag>
@@ -119,29 +144,36 @@ const TableAppointment = () => {
         <Space size="middle">
           <FileTextOutlined
             type="link"
+            title="New prescription"
             onClick={() => {
-              handleAddPrescription(record._id);
+              handleAddPrescription(record?._id, record?.prescription_id);
+            }}
+            style={{ color: "red", fontSize: "15px" }}
+          />
+
+          <EditOutlined
+            type="link"
+            title="Edit prescription"
+            onClick={() => {
+              handleUpdate(record?._id, record?.prescription_id);
             }}
             style={{ color: "blue", fontSize: "15px" }}
           />
-          <EyeOutlined
+
+          <CheckOutlined
             type="link"
+            title="Update status"
             onClick={() => {
-              handleClick(record._id);
+              handleClick(record?._id, record);
             }}
             style={{ color: "green", fontSize: "15px" }}
-          />
-          <DeleteOutlined
-            type="link"
-            onClick={() => {
-              handleDelete(record._id);
-            }}
-            style={{ color: "red", fontSize: "15px" }}
           />
         </Space>
       ),
     },
   ];
+
+  // useEffect(() => {}, [appointmentList]);
   return <Table columns={columns} dataSource={appointmentList} rowKey="_id" />;
 };
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Axios from "../../Axios/axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, notification } from "antd";
 import useAuth from "Hook/useAuth";
 
 const LoginPage = () => {
@@ -22,15 +22,25 @@ const LoginPage = () => {
 
       if (response?.data?.success) {
         const email = values?.email;
+        const id = response?.data?.id;
         const accessToken = response?.data?.accessToken;
         const jwt = response?.data?.jwt;
         const role = response?.data?.role;
+        const username = response?.data?.username;
         localStorage.setItem("jwt", jwt);
-        setAuth({ email, accessToken, role });
-        navigate(from, { replace: true });
+        setAuth({ email, accessToken, role, username, id });
+        notification.success({
+          message: "Success",
+          description: "Login successfully",
+        });
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
+      notification.error({
+        message: "Error",
+        description: "Email or Password is not correct",
+      });
     }
   };
   const onFinishFailed = (errorInfo) => {
@@ -91,19 +101,6 @@ const LoginPage = () => {
           <Input.Password />
           {/* <a href="/register">Create an account?</a> */}
         </Form.Item>
-        {/* <Form.Item
-        name="persist"
-        valuePropName="checked"
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Checkbox onChange={togglePersist} checked={persist}>
-          {" "}
-          Trust this device
-        </Checkbox>
-      </Form.Item> */}
 
         <Form.Item
           wrapperCol={{

@@ -5,15 +5,19 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import NewContext from "Context/createContext";
+import useAuth from "Hook/useAuth";
 import "style.scss";
+import NewAppointmentModal from "Component/AppointmentModal";
 
 const DoctorAppointments = () => {
+  const { auth } = useAuth();
+  const [doctorName, setDoctorName] = useState("");
   const navigate = useNavigate();
+  const [selectedDoctor, setSelectedDoctor] = useState("");
   const [appointmentList, setAppointmentList] = useState([]);
   const axiosPrivate = useAxiosPrivate();
-  function handleClick() {
-    navigate("/new-appointment");
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     axiosPrivate
       .get(`/appointment/doctor/all`)
@@ -30,8 +34,13 @@ const DoctorAppointments = () => {
     <>
       <NewContext.Provider
         value={{
+          isModalOpen,
+          setIsModalOpen,
           appointmentList,
           setAppointmentList,
+          selectedDoctor,
+          setDoctorName,
+          doctorName,
         }}
       >
         <div className="nav">
@@ -42,13 +51,18 @@ const DoctorAppointments = () => {
             <Button
               type="primary"
               style={{ fontSize: "16px" }}
-              onClick={handleClick}
+              onClick={() => {
+                setIsModalOpen(true);
+                setDoctorName(auth?.username);
+                setSelectedDoctor(auth?.id);
+              }}
             >
               Add appointment
             </Button>
           </div>
         </div>
         <DoctorAptTable />
+        <NewAppointmentModal />
       </NewContext.Provider>
     </>
   );

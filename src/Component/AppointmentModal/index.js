@@ -35,7 +35,6 @@ const formItemLayout = {
 };
 
 const NewAppointmentModal = () => {
-  console.log(1);
   const {
     isModalOpen,
     setIsModalOpen,
@@ -45,14 +44,14 @@ const NewAppointmentModal = () => {
     setDoctorName,
   } = useContext(NewContext);
   const [userId, setUserId] = useState("");
-  const [service, setService] = useState({});
   const [slot, setSlot] = useState([]);
+  const [service, setService] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
+  const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const axiosPrivate = useAxiosPrivate();
-  console.log(selectedDate, selectedTime);
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -66,42 +65,41 @@ const NewAppointmentModal = () => {
   };
 
   const onFinish = async (values) => {
-    console.log(values);
-    console.log(selectedDoctor);
-    // const time = new Date(values.startTime);
-    // const appointmentData = {
-    //   user_id: userId,
-    //   patient_name: values.patientname,
-    //   doctor_id: selectedDoctor,
-    //   doctor_name: values.doctor,
-    //   appointment_date: values.date,
-    //   startTime: values.startTime,
-    //   endTime: new Date(time.getTime() + 60 * 60 * 1000),
-    //   service: {
-    //     type: service.value,
-    //     price: service.price,
-    //   },
-    //   description: values.description,
-    //   status: values.status,
-    // };
-    // try {
-    //   const response = await axiosPrivate.post(
-    //     `/appointment/admin/new`,
-    //     appointmentData
-    //   );
-    //   if (response.data.success === true) {
-    //     notification.success({
-    //       message: "Make new appointment",
-    //       description: "Make new appointment successfully",
-    //     });
-    //     navigate("/appointments");
-    //   }
-    // } catch (error) {
-    //   notification.error({
-    //     message: "Make new appointment",
-    //     description: "Make new appointment failed",
-    //   });
-    // }
+    const [startTime, endTime] = values.slot.split("+");
+    const time = new Date(startTime);
+    const appointmentData = {
+      user_id: userId,
+      patient_name: values.patientname,
+      doctor_id: selectedDoctor,
+      doctor_name: values.doctor,
+      appointment_date: values.date,
+      startTime: time,
+      endTime: new Date(time.getTime() + 60 * 60 * 1000),
+      service: {
+        type: service.value,
+        price: service.price,
+      },
+      description: values.description,
+    };
+    try {
+      const response = await axiosPrivate.post(
+        `/appointment/admin/new`,
+        appointmentData
+      );
+      if (response.data.success === true) {
+        notification.success({
+          message: "Success",
+          description: "Make new appointment successfully",
+        });
+        window.location.reload();
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      notification.error({
+        message: "Error",
+        description: "Make new appointment failed",
+      });
+    }
   };
 
   const handlePickDate = async (date) => {
@@ -132,25 +130,45 @@ const NewAppointmentModal = () => {
     const start = new Date(slot.start).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
+      hour12: false,
     });
     const end = new Date(slot.end).toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
-      hour12: true,
+      hour12: false,
     });
     return (
-      <Select.Option key={index} value={`${slot.start}-${slot.end}`}>
+      <Select.Option key={index} value={`${slot.start}+${slot.end}`}>
         {`${start} - ${end}`}
       </Select.Option>
     );
   });
+  const renderOptionEmail = (user) => ({
+    key: user._id,
+    value: user.email,
+    label: (
+      <Form.Item>
+        <Avatar src={user.avatar.url} icon={<UserOutlined />} /> {user.email}
+      </Form.Item>
+    ),
+  });
+  const optionsUser = userList.map((user) => renderOptionEmail(user));
 
   useEffect(() => {
     form.setFieldsValue({
       doctor: doctorName,
     });
   }, [doctorName, form, selectedDoctor]);
+
+  useEffect(() => {
+    axiosPrivate
+      .get("/user/list/all/account")
+      .then((res) => {
+        const userData = res.data.data;
+        setUserList(userData);
+      })
+      .catch((error) => console.error(error));
+  }, []);
   return (
     <>
       <Modal
@@ -183,9 +201,9 @@ const NewAppointmentModal = () => {
             <DatePicker onChange={handlePickDate} />
           </Form.Item>
           {selectedDate ? (
-            <Form.Item label="Appointment Time">
+            <Form.Item name="slot" label="Appointment Time">
               <Select
-                defaultValue="Select a time slot"
+                placeholder="Select a time slot"
                 style={{ width: 200 }}
                 rules={[{ required: true, message: "Please select a date!" }]}
                 onChange={handleSelectTime}
@@ -204,6 +222,57 @@ const NewAppointmentModal = () => {
                 ]}
               >
                 <Input placeholder="Enter patient name" />
+              </Form.Item>
+              <Form.Item
+                name="email"
+                label="Email"
+                rules={[{ required: true, message: "Please select a doctor!" }]}
+              >
+                <AutoComplete
+                  options={optionsUser}
+                  style={{ textAlign: "left" }}
+                  placeholder="Please enter email"
+                  onSelect={(_, option) => {
+                    setUserId(option.key);
+                  }}
+                  filterOption={(inputValue, option) =>
+                    option.value
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
+                />
+              </Form.Item>
+              <Form.Item
+                name="service"
+                label="Service"
+                rules={[{ required: true, message: "Please select a service" }]}
+              >
+                <Select
+                  placeholder="Select service"
+                  options={Services}
+                  showSearch
+                  allowClear
+                  onSelect={(_, value) => {
+                    setService({ ...value });
+                  }}
+                  style={{ textAlign: "left" }}
+                ></Select>
+              </Form.Item>
+              <Form.Item
+                name="description"
+                label="Description"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please give us short description",
+                  },
+                ]}
+              >
+                <Input.TextArea
+                  showCount
+                  maxLength={100}
+                  placeholder="Enter description"
+                />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">

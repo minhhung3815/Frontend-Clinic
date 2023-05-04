@@ -7,21 +7,19 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import NewContext from "Context/createContext";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
+import InboxTable from "Component/InboxTable";
 
 const InboxMail = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const [medicineList, setMedicineList] = useState([]);
-
-  const handleClick = () => {
-    navigate("/new-medicine");
-  };
+  const [requestList, setRequestList] = useState([]);
 
   useEffect(() => {
-    axiosPrivate.get("/medicine/all")
+    axiosPrivate
+      .get("/request/admin/requests")
       .then((res) => {
-        const medicineData = res.data.data;
-        setMedicineList(medicineData);
+        const requestData = res.data.data;
+        setRequestList(requestData);
       })
       .catch((error) => {
         console.log(error);
@@ -29,20 +27,13 @@ const InboxMail = () => {
   }, []);
   return (
     <>
-      <NewContext.Provider value={{ medicineList, setMedicineList }}>
+      <NewContext.Provider value={{ requestList, setRequestList }}>
         <div className="nav">
           <div>
-            <p style={{ fontSize: "25px" }}>Medicines</p>
-          </div>
-          <div>
-            <PlusCircleOutlined
-              type="primary"
-              style={{ fontSize: "16px" }}
-              onClick={handleClick}
-            />
+            <p style={{ fontSize: "25px" }}>Requests</p>
           </div>
         </div>
-        <MedicineTable />
+        <InboxTable />
       </NewContext.Provider>
     </>
   );

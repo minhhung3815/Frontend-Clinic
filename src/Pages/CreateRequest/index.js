@@ -43,21 +43,22 @@ const CreateRequest = () => {
     try {
       const response = await axiosPrivate.post(`/request/new`, values);
       notification.success({
-        message: "New medicine",
-        description: response.data.data,
+        message: "Success",
+        description: response?.data?.data,
       });
-      navigate(`/medicines`);
+      navigate("/request/sent");
     } catch (error) {
       console.log(error);
       notification.error({
-        message: "New medicine",
-        description: "Create new medicine failed",
+        message: "Error",
+        description: "Send request failed. Please try again!!!",
       });
     }
   };
 
   useEffect(() => {
-    axiosPrivate.get("/user/account/manager")
+    axiosPrivate
+      .get("/user/account/manager")
       .then((res) => {
         const managerList = res.data.data;
         console.log(managerList);
@@ -90,10 +91,10 @@ const CreateRequest = () => {
         name="receiver"
         label="To"
         rules={[
-          // {
-          //   type: "email",
-          //   message: "The input is not valid E-mail!",
-          // },
+          {
+            type: "email",
+            message: "The input is not valid E-mail!",
+          },
           {
             required: true,
             message: "Please select email!",

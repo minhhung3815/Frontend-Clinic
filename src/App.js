@@ -33,6 +33,10 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./style.scss";
 import PrivateRoute from "Route/privateRoute";
 import RegisterPage from "Pages/Register";
+import Sidebar from "Layout/Sidebar";
+import EditPrescription from "Pages/UpdatePrescription";
+import EditRequest from "Pages/EditResponse";
+import ViewRequest from "Pages/ViewResponse";
 
 const roles = {
   role1: "manager",
@@ -46,16 +50,16 @@ const roles = {
 const App = () => {
   return (
     <Routes>
-      {/** public routes */}
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/unauthorized" element={<Unauthorized />} />
-      <Route path="/notfound" element={<NotFound />} />
-      <Route path="/error500" element={<Error500 />} />
-
-      {/** protected routes */}
-      <Route element={<PersistLogin />}>
-        <Route path="/" element={<AppLayout />}>
+      <Route element={<AppLayout />}>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/notfound" element={<NotFound />} />
+        <Route path="/error500" element={<Error500 />} />
+        {/** protected routes */}
+        <Route element={<PersistLogin />}>
+          {/* <Route path="/" element={<AppLayout />}> */}
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
@@ -92,13 +96,20 @@ const App = () => {
               element={<EditSchedule />}
             />
           </Route>
-          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+          <Route
+            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
+          >
             <Route path="new-appointment" element={<NewAppointment />} />
           </Route>
           <Route
             element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
           >
             <Route path="prescriptions" element={<Prescriptions />} />
+          </Route>
+          <Route
+            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
+          >
+            <Route path="edit-prescription" element={<EditPrescription />} />
           </Route>
           <Route
             element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
@@ -129,8 +140,14 @@ const App = () => {
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
             <Route path="request/inbox" element={<InboxMail />} />
           </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+            <Route path="request/inbox/:requestId" element={<EditRequest />} />
+          </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
             <Route path="request/sent" element={<SentMail />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
+            <Route path="request/sent/:requestId" element={<ViewRequest />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
             <Route path="new-medicine" element={<NewMedicine />} />
@@ -139,7 +156,7 @@ const App = () => {
             <Route path="new-schedule" element={<CreateWorkingSchedule />} />
           </Route>
           <Route
-            element={<PrivateRoute allowedRoles={[roles.role2, roles.role2]} />}
+            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
           >
             <Route
               path="doctor/appointments"
@@ -152,10 +169,12 @@ const App = () => {
           <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
             <Route path="new-request" element={<CreateRequest />} />
           </Route>
+          {/* </Route> */}
         </Route>
+        {/* Catch all path */}
+        <Route path="*" element={<NotFound />} />
       </Route>
-      {/* Catch all path */}
-      <Route path="*" element={<NotFound />} />
+      {/** public routes */}
     </Routes>
   );
 };

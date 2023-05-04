@@ -14,13 +14,14 @@ const SentMail = () => {
   const [sentList, setSentList] = useState([]);
 
   const handleClick = () => {
-    navigate("/new-medicine");
+    navigate("/new-request");
   };
 
   useEffect(() => {
-    axiosPrivate.get("/request/user/requests")
+    axiosPrivate
+      .get("/request/user/requests")
       .then((res) => {
-        const sentData = res.data.data;
+        const sentData = res?.data?.data;
         setSentList(sentData);
       })
       .catch((error) => {

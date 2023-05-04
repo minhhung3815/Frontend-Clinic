@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import NewContext from "Context/createContext";
+import { CalendarOutlined } from "@ant-design/icons";
 import "style.scss";
 import Loading from "Layout/Loading";
 
@@ -16,7 +17,7 @@ const Appointments = () => {
   const [doctorList, setDoctorList] = useState([]);
 
   function handleClick() {
-    navigate("/new-appointment");
+    navigate("/doctors");
   }
   useEffect(() => {
     let isMounted = true;
@@ -67,15 +68,9 @@ const Appointments = () => {
           <div>
             <p style={{ fontSize: "25px" }}>Appointments</p>
           </div>
-          {/* <div>
-            <Button
-              type="primary"
-              style={{ fontSize: "16px" }}
-              onClick={handleClick}
-            >
-              Add appointment
-            </Button>
-          </div> */}
+          <div>
+            <CalendarOutlined onClick={handleClick} />
+          </div>
         </div>
         {loading ? <Loading size="large" /> : <TableAppointment />}
       </NewContext.Provider>

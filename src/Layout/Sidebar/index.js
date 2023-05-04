@@ -47,23 +47,21 @@ const Sidebar = () => {
     getItem("Appointments", "appointments", <ContactsOutlined />),
     getItem("Doctor Schedule", "schedule", <CalendarOutlined />),
     getItem("Prescriptions", "prescriptions", <FileTextOutlined />),
-    getItem("Requests", "request", <MailOutlined />, [
-      getItem("Inbox", "request/inbox", <InboxOutlined />),
-      getItem("Sent", "request/sent", <SendOutlined />),
-    ]),
+    getItem("Inbox", "request/inbox", <InboxOutlined />),
     getItem("Transactions", "payment", <CreditCardOutlined />),
     getItem("Medicines", "medicines", <MedicineBoxOutlined />),
     getItem("New Appointment", "new-appointment", <CalendarOutlined />),
     getItem("New User", "new-user", <UserAddOutlined />),
     getItem("New Doctor", "new-doctor", <UserAddOutlined />),
-    getItem("New Request", "new-request", <SendOutlined />),
     getItem("New Medicine", "new-medicine", <HeartOutlined />),
     getItem("New Schedule", "new-schedule", <ScheduleOutlined />),
-    getItem("New Prescription", "new-prescription", <FileTextOutlined />),
   ];
 
   const itemsDoctor = [
+    getItem("Appointments", "doctor/appointments", <ContactsOutlined />),
+    getItem("Sent", "request/sent", <SendOutlined />),
     getItem("New Prescription", "new-prescription", <FileTextOutlined />),
+    getItem("New Request", "new-request", <SendOutlined />),
   ];
 
   const selectedKeys = [location.pathname.split("/")[1]];
@@ -72,16 +70,7 @@ const Sidebar = () => {
     navigate(e.key);
   };
   return (
-    <Layout.Sider
-      style={siderStyle}
-      // collapsible
-      // collapsed={collapsed}
-      // onCollapse={(value) => setCollapsed(value)}
-      // className="ant-layout-sider-collapsed"
-      // collapsedWidth={20}
-      // collapseIcon={<FileTextOutlined />}
-      // expandIcon={<MenuFoldOutlined />}
-    >
+    <Layout.Sider style={siderStyle}>
       <Menu
         onClick={onClick}
         mode="inline"
@@ -89,7 +78,13 @@ const Sidebar = () => {
           height: "100%",
           background: "white",
         }}
-        items={auth?.role === "manager" ? itemsManager : itemsDoctor}
+        items={
+          auth?.role === "manager"
+            ? itemsManager
+            : auth?.role === "doctor"
+            ? itemsDoctor
+            : null
+        }
         selectedKeys={selectedKeys}
       />
     </Layout.Sider>

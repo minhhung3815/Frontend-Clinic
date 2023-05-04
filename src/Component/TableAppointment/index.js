@@ -19,8 +19,8 @@ const TableAppointment = () => {
   // console.log(appointmentList);
   const navigate = useNavigate();
 
-  const handleAddPrescription = (id) => {
-    navigate({ pathname: "/new-prescription", search: `?id=${id}` });
+  const handleAddPrescription = (appointmentId, prescriptionId) => {
+    navigate("/new-prescription");
   };
 
   const handleMakePayment = async (id) => {
@@ -42,7 +42,6 @@ const TableAppointment = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Delete notification",
         description: "Something went wrong",
@@ -126,7 +125,9 @@ const TableAppointment = () => {
           ? (color = "blue")
           : status === "finished"
           ? (color = "green")
-          : (color = "volcano");
+          : status === "cancelled"
+          ? (color = "volcano")
+          : (color = "purple");
         return (
           <>
             <Tag color={color}>{status.toUpperCase()}</Tag>
@@ -158,7 +159,7 @@ const TableAppointment = () => {
           <FileTextOutlined
             type="link"
             onClick={() => {
-              handleAddPrescription(record._id);
+              handleAddPrescription(record?._id, record?.prescription_id);
             }}
             style={{ color: "blue", fontSize: "15px" }}
           />

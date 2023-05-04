@@ -2,6 +2,7 @@ import { Layout } from "antd";
 import Header from "Layout/Header";
 import Sidebar from "Layout/Sidebar";
 import { Outlet } from "react-router-dom";
+import useAuth from "Hook/useAuth";
 
 const contentStyle = {
   textAlign: "center",
@@ -11,22 +12,16 @@ const contentStyle = {
   overflow: "initial",
   padding: 16,
 };
-// const contentStyle = {
-//   // textAlign: "center",
-//   // height: "auto",
-//   // lineHeight: "120px",
-//   color: "#fff",
-//   // overflow: "initial",
-//   padding: 24,
-//   overflow: "initial",
-// };
 
 const AppLayout = () => {
+  const { auth } = useAuth();
   return (
     <Layout>
       <Header />
       <Layout hasSider>
-        <Sidebar />
+        {auth?.role === "manager" || auth?.role === "doctor" ? (
+          <Sidebar />
+        ) : null}
         <Layout.Content style={contentStyle}>
           <div
             style={{

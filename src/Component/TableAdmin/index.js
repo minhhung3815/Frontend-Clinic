@@ -108,7 +108,7 @@ const TableManager = () => {
     },
   ];
   const onChange = (pagination, sorter, extra) => {
-    console.log("params", pagination, sorter, extra);
+    // console.log("params", pagination, sorter, extra);
   };
   return (
     <>

@@ -1,14 +1,11 @@
 // import Prescription from "Component/Prescription";
-import MedicineTable from "Component/MedicineTable";
-import React, { useEffect, useState } from "react";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
-import { Button } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import NewContext from "Context/createContext";
-import "./style.scss";
-import { useNavigate } from "react-router-dom";
 import InboxTable from "Component/InboxTable";
+import NewContext from "Context/createContext";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
 import Loading from "Layout/Loading";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./style.scss";
 
 const InboxMail = () => {
   const axiosPrivate = useAxiosPrivate();

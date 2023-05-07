@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import Axios from "../../Axios/axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input, notification } from "antd";
 import useAuth from "Hook/useAuth";
+import { Button, Form, Input, notification } from "antd";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Axios from "../../Axios/axios";
 
 const LoginPage = () => {
   const navigate = useNavigate();

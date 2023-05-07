@@ -1,31 +1,15 @@
+import useAxiosPrivate from "Hook/useAxiosPrivate";
 import {
   Button,
-  DatePicker,
   Form,
   Input,
-  Select,
-  Upload,
   Radio,
-  notification,
   Space,
-  InputNumber,
+  notification
 } from "antd";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import {
-  PlusOutlined,
-  MinusCircleOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-} from "@ant-design/icons";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "style.scss";
-import locale from "antd/es/date-picker/locale/en_US";
-import moment from "moment";
-const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -72,7 +56,7 @@ const EditRequest = () => {
       .get(`/request/specific/requests/${requestId}`)
       .then((res) => {
         const responseData = res?.data?.data;
-        console.log(responseData);
+        // console.log(responseData);
         form.setFieldsValue({
           from: responseData?.user_id?.email,
           title: responseData?.title,

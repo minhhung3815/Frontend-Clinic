@@ -1,28 +1,8 @@
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Upload,
-  Radio,
-  notification,
-  Space,
-  InputNumber,
-  Avatar,
-} from "antd";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import {
-  PlusOutlined,
-  MinusCircleOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
+import { Avatar, Button, Form, Input, Select, notification } from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "style.scss";
-import locale from "antd/es/date-picker/locale/en_US";
-const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -50,7 +30,7 @@ const CreateRequest = () => {
       navigate("/request/sent");
     } catch (error) {
       // console.log(error);
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -63,8 +43,8 @@ const CreateRequest = () => {
     axiosPrivate
       .get("/user/account/manager")
       .then((res) => {
-        const managerList = res.data.data;
-        console.log(managerList);
+        const managerList = res?.data?.data;
+        // console.log(managerList);
         setManagerList(managerList);
       })
       .catch((error) => {

@@ -1,26 +1,21 @@
+import { UserOutlined } from "@ant-design/icons";
+import useAuth from "Hook/useAuth";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
+import { Services } from "Utils/Services";
 import {
+  AutoComplete,
+  Avatar,
   Button,
   DatePicker,
   Form,
   Input,
-  Select,
-  Avatar,
   Radio,
-  TimePicker,
-  List,
-  notification,
-  AutoComplete,
+  Select,
+  notification
 } from "antd";
 import moment from "moment";
-import { SearchOutlined, UserOutlined } from "@ant-design/icons";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import React from "react";
-import NewContext from "Context/createContext";
-import { useNavigate } from "react-router-dom";
-import { Services } from "Utils/Services";
-import useAuth from "Hook/useAuth";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -44,7 +39,6 @@ const EditAppointment = () => {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-
   const isFinishedDisabled = status === "cancelled";
   const isCancelledDisabled = status === "finished";
 

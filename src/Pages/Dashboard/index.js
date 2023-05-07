@@ -1,15 +1,14 @@
 import BarChart from "Component/BarChart";
 import CardList from "Component/CardList";
-import Chart from "Component/chart/Chart";
 import TableUser from "Component/TableUser";
-import { useEffect, useState } from "react";
-import { UserData } from "Utils/Data";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
-import NotFound from "Pages/Errors/NotFound";
+import Chart from "Component/chart/Chart";
 import NewContext from "Context/createContext";
-import "./style.scss";
-import { useLocation, useNavigate } from "react-router-dom";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
 import Loading from "Layout/Loading";
+import { UserData } from "Utils/Data";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./style.scss";
 const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();

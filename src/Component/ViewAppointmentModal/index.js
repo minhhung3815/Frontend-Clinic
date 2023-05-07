@@ -1,36 +1,24 @@
 import {
+  EditOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
+import NewContext from "Context/createContext";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
+import { Services } from "Utils/Services";
+import {
   Button,
   DatePicker,
   Form,
   Input,
-  Select,
-  Avatar,
-  Radio,
-  TimePicker,
-  List,
   Modal,
-  notification,
-  AutoComplete,
+  Select,
   Space,
+  TimePicker,
+  notification,
 } from "antd";
-import {
-  MoreOutlined,
-  UserAddOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  FileTextOutlined,
-  EyeOutlined,
-  CheckOutlined,
-} from "@ant-design/icons";
 import moment from "moment";
-import { SearchOutlined, UserOutlined } from "@ant-design/icons";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import React from "react";
-import NewContext from "Context/createContext";
 import { useNavigate } from "react-router-dom";
-import { Services } from "Utils/Services";
 
 const formItemLayout = {
   labelCol: {

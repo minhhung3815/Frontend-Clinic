@@ -1,30 +1,19 @@
 import {
+  MinusCircleOutlined,
+  PlusOutlined,
+  SendOutlined
+} from "@ant-design/icons";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
+import {
   Button,
-  DatePicker,
   Form,
   Input,
   Select,
-  Upload,
-  Radio,
-  notification,
   Space,
-  AutoComplete,
-  SelectProps,
-  Avatar,
-  TimePicker,
-  InputNumber,
+  notification
 } from "antd";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import {
-  PlusOutlined,
-  MinusCircleOutlined,
-  UserOutlined,
-  MailOutlined,
-  SendOutlined,
-} from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
 import "style.scss";
 const { Option } = Select;
 
@@ -125,7 +114,7 @@ const EditPrescription = () => {
         .get(`/prescription/list/detail/${prescriptionId}`)
         .then((res) => {
           const prescriptionData = res?.data?.data;
-          console.log(prescriptionData);
+          // console.log(prescriptionData);
           form.setFieldsValue({
             diagnose: prescriptionData?.diagnose,
             medications: prescriptionData?.medications,

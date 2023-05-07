@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
-import { Calendar, momentLocalizer, Views } from "react-big-calendar";
-import Toolbar from "react-big-calendar/lib/Toolbar";
+import DoctorAppointmentModal from "Component/DoctorAppointmentModal";
+import ViewAppointment from "Component/ViewAppointmentModal";
+import NewContext from "Context/createContext";
+import useAuth from "Hook/useAuth";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import moment from "moment";
 import "moment/locale/en-gb";
-import NewContext from "Context/createContext";
+import { useEffect, useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import ViewAppointment from "Component/ViewAppointmentModal";
-import useAuth from "Hook/useAuth";
-import NewAppointmentModal from "Component/AppointmentModal";
-import DoctorAppointmentModal from "Component/DoctorAppointmentModal";
 
 const localizer = momentLocalizer(moment);
 
@@ -19,14 +17,12 @@ const WorkCalendar = () => {
   const axiosPrivate = useAxiosPrivate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [appointmentData, setAppointmentData] = useState({});
-  const [newEvent, setNewEvent] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [doctorName, setDoctorName] = useState("");
   const [view, setView] = useState(false);
   const [add, setAdd] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [currentView, setCurrentView] = useState("month");
   const handleSelectEvent = (event) => {
     setAppointmentData(event);
     setIsModalOpen(true);
@@ -50,12 +46,6 @@ const WorkCalendar = () => {
       ...data,
     };
   });
-
-  const calendarConfig = {
-    month: {
-      selectable: false,
-    },
-  };
 
   useEffect(() => {
     const getSchedule = async () => {
@@ -101,10 +91,6 @@ const WorkCalendar = () => {
         onSelectEvent={handleSelectEvent}
         onSelectSlot={handleSelectSlot}
         selectable={true}
-        onView={(view) => {
-          console.log(view);
-          setCurrentView(view);
-        }}
       />
       {view === true && <ViewAppointment />}
       {add === true && <DoctorAppointmentModal />}

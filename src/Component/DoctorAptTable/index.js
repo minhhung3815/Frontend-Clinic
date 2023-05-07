@@ -1,17 +1,13 @@
-import { Space, Table, Tag, Button, notification } from "antd";
 import {
-  MoreOutlined,
-  UserAddOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  FileTextOutlined,
-  EyeOutlined,
   CheckOutlined,
+  EditOutlined,
+  FileTextOutlined
 } from "@ant-design/icons";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
-import { useNavigate } from "react-router-dom";
 import NewContext from "Context/createContext";
-import { useContext, useEffect, useState } from "react";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
+import { Space, Table, Tag, notification } from "antd";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TableAppointment = () => {
   const axiosPrivate = useAxiosPrivate();

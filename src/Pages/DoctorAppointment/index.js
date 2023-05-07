@@ -1,19 +1,16 @@
+import NewAppointmentModal from "Component/AppointmentModal";
 import DoctorAptTable from "Component/DoctorAptTable";
-import React from "react";
-import { Button } from "antd";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
 import NewContext from "Context/createContext";
 import useAuth from "Hook/useAuth";
-import "style.scss";
-import NewAppointmentModal from "Component/AppointmentModal";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
 import Loading from "Layout/Loading";
+import { Button } from "antd";
+import { useEffect, useState } from "react";
+import "style.scss";
 
 const DoctorAppointments = () => {
   const { auth } = useAuth();
   const [doctorName, setDoctorName] = useState("");
-  const navigate = useNavigate();
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [appointmentList, setAppointmentList] = useState([]);
   const axiosPrivate = useAxiosPrivate();

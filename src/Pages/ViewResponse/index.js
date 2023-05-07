@@ -1,8 +1,7 @@
-import { Form, Input, Radio, notification, Space } from "antd";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
+import { Form, Input, Radio, Space, notification } from "antd";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "style.scss";
 
 const formItemLayout = {
@@ -48,7 +47,6 @@ const ViewRequest = () => {
       .get(`/request/specific/requests/${requestId}`)
       .then((res) => {
         const responseData = res?.data?.data;
-        console.log(responseData);
         form.setFieldsValue({
           to: responseData?.receiver_id?.email,
           title: responseData?.title,

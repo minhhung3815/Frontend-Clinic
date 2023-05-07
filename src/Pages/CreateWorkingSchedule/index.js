@@ -1,31 +1,22 @@
 import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  Select,
-  Upload,
-  Radio,
-  notification,
-  Space,
-  AutoComplete,
-  SelectProps,
-  Avatar,
-  TimePicker,
-} from "antd";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import {
-  PlusOutlined,
   MinusCircleOutlined,
-  UserOutlined,
-  MailOutlined,
+  PlusOutlined,
+  UserOutlined
 } from "@ant-design/icons";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
+import {
+  AutoComplete,
+  Avatar,
+  Button,
+  Form,
+  Select,
+  Space,
+  TimePicker,
+  notification
+} from "antd";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "style.scss";
-import Axios from "../../Axios/axios";
-import locale from "antd/es/date-picker/locale/en_US";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -50,8 +41,8 @@ const CreateWorkingSchedule = () => {
         doctor_id: doctorId,
         ...values,
       });
-      console.log(response.response);
-      if (response?.status === 200) {
+      // console.log(response.response);
+      if (response?.data?.status) {
         notification.success({
           message: "Success",
           description: response?.data?.data,
@@ -60,7 +51,7 @@ const CreateWorkingSchedule = () => {
         navigate(`/schedule`);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",

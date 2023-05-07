@@ -1,33 +1,17 @@
-import { MailOutlined, UserAddOutlined } from "@ant-design/icons";
-import { Layout, Menu, theme, ConfigProvider } from "antd";
+import {
+  CalendarOutlined, ContactsOutlined, CreditCardOutlined, DashboardOutlined, FileTextOutlined, HeartOutlined, IdcardOutlined,
+  InboxOutlined, MedicineBoxOutlined, ScheduleOutlined, SendOutlined, TeamOutlined, UserAddOutlined, UserOutlined
+} from "@ant-design/icons";
+import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 import { siderStyle } from "./handler";
-import { useState } from "react";
-import {
-  CalendarOutlined,
-  UserOutlined,
-  DashboardOutlined,
-  ContactsOutlined,
-  TeamOutlined,
-  MedicineBoxOutlined,
-  HeartOutlined,
-  ScheduleOutlined,
-  CreditCardOutlined,
-  SendOutlined,
-  FileTextOutlined,
-  IdcardOutlined,
-  InboxOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
 
-import { useLocation } from "react-router-dom";
 import useAuth from "Hook/useAuth";
+import { useLocation } from "react-router-dom";
 import "./style.css";
 
 const Sidebar = () => {
   const { auth } = useAuth();
-  const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const getItem = (label, key, icon, children, type) => {

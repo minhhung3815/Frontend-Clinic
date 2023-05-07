@@ -19,15 +19,11 @@ const Header = () => {
         { jwt },
         { withCredentials: true }
       );
-      localStorage.removeItem("jwt");
-      localStorage.removeItem("persist");
+      localStorage.clear();
       setAuth({});
     } catch (error) {
       console.log(error);
     }
-    // localStorage.removeItem("isLogined");
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("userData");
   };
   return (
     <Layout.Header style={headerStyle}>
@@ -52,7 +48,13 @@ const Header = () => {
               >
                 Login
               </Button>
-              <Button>Register</Button>
+              <Button
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                Register
+              </Button>
             </Space>
           </ButtonGroup>
         )}

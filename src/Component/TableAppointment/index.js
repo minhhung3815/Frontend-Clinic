@@ -37,15 +37,18 @@ const TableAppointment = () => {
       if (response.data.success === true) {
         setAppointmentList(appointmentList.filter((user) => user._id !== id));
         notification.success({
-          message: "Delete notification",
-          description: response.data.data,
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
         });
       }
     } catch (error) {
-      notification.error({
-        message: "Delete notification",
-        description: "Something went wrong",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 
@@ -138,31 +141,33 @@ const TableAppointment = () => {
     {
       title: "Payment",
       render: (_, record) => (
-        // status.toLowerCase() !== "finished" ? (
-        //   <Tag color="red">PENDING</Tag>
-        // ) : (
-        //   <EyeOutlined
-        //     style={{ color: "blue", fontSize: "20px", position: "center" }}
-        //   />
-        // ),
-        <EditOutlined
-          onClick={() => {
-            handleMakePayment(record._id);
-          }}
-        />
+        <>
+          {record?.status.toLowerCase() !== "finished" ? (
+            <Tag color="red">PENDING</Tag>
+          ) : (
+            <EyeOutlined
+              style={{ color: "blue", fontSize: "20px", position: "center" }}
+            />
+          )}
+        </>
+        // <EditOutlined
+        //   onClick={() => {
+        //     handleMakePayment(record._id);
+        //   }}
+        // />
       ),
     },
     {
       title: "Action",
       render: (_, record) => (
         <Space size="middle">
-          <FileTextOutlined
+          {/* <FileTextOutlined
             type="link"
             onClick={() => {
               handleAddPrescription(record?._id, record?.prescription_id);
             }}
             style={{ color: "blue", fontSize: "15px" }}
-          />
+          /> */}
           <EditOutlined
             type="link"
             onClick={() => {

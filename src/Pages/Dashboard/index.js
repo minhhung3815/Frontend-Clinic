@@ -14,8 +14,11 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
+  const [accountLoading, setAccountLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
   const [userList, setUserList] = useState([]);
+  const [totalAccount, setTotalAccount] = useState([]);
+  const [totalAppointments, setTotalAppointments] = useState([]);
   const [userData] = useState({
     labels: UserData.map((data) => data.year),
     datasets: [
@@ -71,9 +74,69 @@ const Dashboard = () => {
     };
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getAccounts = async () => {
+      try {
+        const response = await axiosPrivate.get("/statistic/total", {
+          signal: controller.signal,
+        });
+        isMounted && setTotalAccount(response?.data?.data);
+      } catch (error) {
+        console.log(error);
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setAccountLoading(false);
+      }
+    };
+
+    getAccounts();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getAppointments = async () => {
+      try {
+        const response = await axiosPrivate.get("/statistic/appointments", {
+          signal: controller.signal,
+        });
+        isMounted && setTotalAppointments(response?.data?.data);
+      } catch (error) {
+        console.log(error);
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setAccountLoading(false);
+      }
+    };
+
+    getAppointments();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
+
   return (
-    <NewContext.Provider value={{ userList, setUserList }}>
-      <CardList />
+    <NewContext.Provider
+      value={{
+        userList,
+        setUserList,
+        totalAccount,
+        setTotalAccount,
+        totalAppointments,
+      }}
+    >
+      {accountLoading ? <Loading size="default" /> : <CardList />}
       <div className="chart-container">
         <div className="chart-item">
           <Chart />

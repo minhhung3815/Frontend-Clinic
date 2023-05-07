@@ -40,22 +40,27 @@ const EditMedicine = () => {
     // console.log(values);
     try {
       const response = await axiosPrivate.put(`/medicine/new`, values);
-      notification.success({
-        message: "New medicine",
-        description: response.data.data,
-      });
-      navigate(-1);
+      if (response?.data?.data) {
+        notification.success({
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
+        });
+        navigate(-1);
+      }
     } catch (error) {
-      console.log(error);
-      notification.error({
-        message: "New medicine",
-        description: "Create new medicine failed",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 
   useEffect(() => {
-    axiosPrivate.get(`/medicine/detail/${medicineId}`)
+    axiosPrivate
+      .get(`/medicine/detail/${medicineId}`)
       .then((res) => {
         const medicineData = res.data.data;
         form.setFieldsValue({

@@ -26,7 +26,6 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import "style.scss";
-import locale from "antd/es/date-picker/locale/en_US";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -63,18 +62,23 @@ const EditPrescription = () => {
         price: price,
         ...values,
       });
-      notification.success({
-        message: "New prescription",
-        description: response.data.data,
-      });
-      form.resetFields();
-      navigate(-1);
+      if (response?.data?.success) {
+        notification.success({
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
+        });
+        form.resetFields();
+        navigate(-1);
+      }
     } catch (error) {
       // console.log(error.response.data.data);
-      notification.error({
-        message: "New prescription",
-        description: error.response.data.data,
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 

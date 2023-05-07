@@ -10,8 +10,10 @@ import { useNavigate } from "react-router-dom";
 import NewContext from "Context/createContext";
 import "./style.scss";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
+import useAuth from "Hook/useAuth";
 const TableManager = () => {
   const axiosPrivate = useAxiosPrivate();
+  const { auth } = useAuth();
   const navigate = useNavigate();
   const { managerList, setManagerList } = useContext(NewContext);
 
@@ -32,15 +34,18 @@ const TableManager = () => {
       if (response.data.success === true) {
         setManagerList(managerList.filter((user) => user._id !== id));
         notification.success({
-          message: "Delete notification",
-          description: response.data.data,
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
         });
       }
     } catch (error) {
-      notification.error({
-        message: "Delete notification",
-        description: "Something went wrong",
-      });
+      console.log(error);
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 
@@ -89,13 +94,15 @@ const TableManager = () => {
             }}
             style={{ color: "green", fontSize: "20px" }}
           />
-          <DeleteOutlined
-            type="link"
-            style={{ color: "red", fontSize: "20px" }}
-            onClick={() => {
-              handleDelete(record._id);
-            }}
-          />
+          {auth.id !== record?._id ? (
+            <DeleteOutlined
+              type="link"
+              style={{ color: "red", fontSize: "20px" }}
+              onClick={() => {
+                handleDelete(record._id);
+              }}
+            />
+          ) : null}
         </Space>
       ),
     },

@@ -1,62 +1,62 @@
-import React from 'react';
-import './style.css';
-import { Badge, Calendar } from 'antd';
+import React from "react";
+import "./style.css";
+import { Badge, Calendar } from "antd";
 const getListData = (value) => {
   let listData;
   switch (value.date()) {
     case 8:
       listData = [
         {
-          type: 'warning',
-          content: 'This is warning event.',
+          type: "warning",
+          content: "This is warning event.",
         },
         {
-          type: 'success',
-          content: 'This is usual event.',
+          type: "success",
+          content: "This is usual event.",
         },
       ];
       break;
     case 10:
       listData = [
         {
-          type: 'warning',
-          content: 'This is warning event.',
+          type: "warning",
+          content: "This is warning event.",
         },
         {
-          type: 'success',
-          content: 'This is usual event.',
+          type: "success",
+          content: "This is usual event.",
         },
         {
-          type: 'error',
-          content: 'This is error event.',
+          type: "error",
+          content: "This is error event.",
         },
       ];
       break;
     case 15:
       listData = [
         {
-          type: 'warning',
-          content: 'This is warning event',
+          type: "warning",
+          content: "This is warning event",
         },
         {
-          type: 'success',
-          content: 'This is very long usual event。。....',
+          type: "success",
+          content: "This is very long usual event。。....",
         },
         {
-          type: 'error',
-          content: 'This is error event 1.',
+          type: "error",
+          content: "This is error event 1.",
         },
         {
-          type: 'error',
-          content: 'This is error event 2.',
+          type: "error",
+          content: "This is error event 2.",
         },
         {
-          type: 'error',
-          content: 'This is error event 3.',
+          type: "error",
+          content: "This is error event 3.",
         },
         {
-          type: 'error',
-          content: 'This is error event 4.',
+          type: "error",
+          content: "This is error event 4.",
         },
       ];
       break;
@@ -97,6 +97,12 @@ const WorkCalendar = () => {
   //   if (info.type === 'month') return monthCellRender(current);
   //   return info.originNode;
   // };
-  return <Calendar dateCellRender={dateCellRender} monthCellRender={monthCellRender} />;
+  return (
+    <Calendar
+      // mode="week"
+      dateCellRender={dateCellRender}
+      monthCellRender={monthCellRender}
+    />
+  );
 };
 export default WorkCalendar;

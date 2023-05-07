@@ -59,15 +59,18 @@ const CreateDoctor = () => {
         }
       );
       notification.success({
-        message: "Edit doctor",
-        description: response.data.data,
+        message: "Success",
+        description: response?.data?.data,
+        duration: 1,
       });
       navigate("/doctors");
     } catch (error) {
-      notification.error({
-        message: "Edit doctor",
-        description: "Edit doctor profile failed",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const normFile = (e) => {

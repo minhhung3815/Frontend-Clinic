@@ -64,16 +64,19 @@ const NewAppointment = () => {
       );
       if (response.data.success === true) {
         notification.success({
-          message: "Make new appointment",
-          description: "Make new appointment successfully",
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
         });
         navigate("/appointments");
       }
     } catch (error) {
-      notification.error({
-        message: "Make new appointment",
-        description: "Make new appointment failed",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 

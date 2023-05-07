@@ -8,22 +8,38 @@ import NewContext from "Context/createContext";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import InboxTable from "Component/InboxTable";
+import Loading from "Layout/Loading";
 
 const InboxMail = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [requestList, setRequestList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axiosPrivate
-      .get("/request/admin/requests")
-      .then((res) => {
-        const requestData = res.data.data;
-        setRequestList(requestData);
-      })
-      .catch((error) => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getRequest = async () => {
+      try {
+        const response = await axiosPrivate.get("/request/admin/requests", {
+          signal: controller.signal,
+        });
+        isMounted && setRequestList(response?.data?.data);
+      } catch (error) {
         console.log(error);
-      });
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getRequest();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
   return (
     <>
@@ -33,7 +49,7 @@ const InboxMail = () => {
             <p style={{ fontSize: "25px" }}>Requests</p>
           </div>
         </div>
-        <InboxTable />
+        {loading ? <Loading size="large" /> : <InboxTable />}
       </NewContext.Provider>
     </>
   );

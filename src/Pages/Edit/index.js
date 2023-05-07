@@ -30,6 +30,7 @@ const formItemLayout = {
 };
 
 const EditUser = () => {
+  const [birth, setBirth] = useState("");
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,28 +40,34 @@ const EditUser = () => {
   const [form] = Form.useForm();
   const onFinish = async (values) => {
     const formData = new FormData();
-    formData.append("email", values.email);
+    values.email && formData.append("email", values.email);
     formData.append("name", values.name);
     formData.append("gender", values.gender);
     formData.append("phone_number", values.phone_number);
     formData.append("date_of_birth", values.date_of_birth);
     formData.append("image", values.avatar && values.avatar[0].originFileObj);
     try {
-      const response = await axiosPrivate.put(`/user/edit/user/${userId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axiosPrivate.put(
+        `/user/edit/user/${userId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       notification.success({
         message: "Edit user",
         description: response.data.data,
       });
       navigate(-1);
     } catch (error) {
-      notification.error({
-        message: "Edit user",
-        description: "Edit user profile failed",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const normFile = (e) => {
@@ -89,14 +96,15 @@ const EditUser = () => {
   useEffect(() => {
     axiosPrivate.get(`/user/account/detail/${userId}`).then((res) => {
       const { name, email, date_of_birth, phone_number, gender, _id } =
-        res.data.data;
+        res?.data?.data;
+      setBirth(moment(date_of_birth));
       form.setFieldsValue({
         id: _id,
         email: email,
         name: name,
         gender: gender,
         phone_number: phone_number,
-        date_of_birth: moment(new Date(date_of_birth)),
+        date_of_birth: moment(date_of_birth),
       });
     });
   }, [form, userId]);
@@ -138,7 +146,24 @@ const EditUser = () => {
         >
           <Input />
         </Form.Item>
-      ) : null}
+      ) : (
+        <Form.Item
+          name="email"
+          label="E-mail"
+          rules={[
+            {
+              type: "email",
+              message: "The input is not valid E-mail!",
+            },
+            {
+              required: true,
+              message: "Please input your E-mail!",
+            },
+          ]}
+        >
+          <Input disabled/>
+        </Form.Item>
+      )}
 
       <Form.Item
         name="gender"
@@ -158,7 +183,7 @@ const EditUser = () => {
       </Form.Item>
 
       <Form.Item name="date_of_birth" label="Birth">
-        <DatePicker style={{ width: "100%" }} locale={locale} />
+        <DatePicker style={{ width: "100%" }} format="YYYY/MM/DD" />
       </Form.Item>
 
       <Form.Item
@@ -166,7 +191,7 @@ const EditUser = () => {
         label="Phone Number"
         rules={[{ required: true, message: "Please input your phone number!" }]}
       >
-        <Input placeholder="Phone number"/>
+        <Input placeholder="Phone number" />
       </Form.Item>
 
       <Form.Item

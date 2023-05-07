@@ -16,15 +16,18 @@ const Prescription = () => {
       if (response.data.success === true) {
         setPrescriptionList(prescriptionList.filter((user) => user._id !== id));
         notification.success({
-          message: "Delete notification",
-          description: response.data.data,
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
         });
       }
     } catch (error) {
-      notification.error({
-        message: "Delete notification",
-        description: "Something went wrong",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const columns = [
@@ -42,7 +45,7 @@ const Prescription = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (value) => <Tag color="green">${value}</Tag>,
+      render: (value) => <Tag color="green">${value.toFixed(2)}</Tag>,
     },
     {
       title: "Date",

@@ -7,26 +7,42 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import NewContext from "Context/createContext";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
+import Loading from "Layout/Loading";
 
 const SentMail = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [sentList, setSentList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleClick = () => {
     navigate("/new-request");
   };
 
   useEffect(() => {
-    axiosPrivate
-      .get("/request/user/requests")
-      .then((res) => {
-        const sentData = res?.data?.data;
-        setSentList(sentData);
-      })
-      .catch((error) => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getRequest = async () => {
+      try {
+        const response = await axiosPrivate.get("/request/user/requests", {
+          signal: controller.signal,
+        });
+        isMounted && setSentList(response?.data?.data);
+      } catch (error) {
         console.log(error);
-      });
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getRequest();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
   return (
     <>
@@ -43,7 +59,7 @@ const SentMail = () => {
             />
           </div>
         </div>
-        <SentTable />
+        {loading ? <Loading size="large" /> : <SentTable />}
       </NewContext.Provider>
     </>
   );

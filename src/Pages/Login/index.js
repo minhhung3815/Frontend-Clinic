@@ -31,16 +31,18 @@ const LoginPage = () => {
         setAuth({ email, accessToken, role, username, id });
         notification.success({
           message: "Success",
-          description: "Login successfully",
+          description: response?.data?.data,
+          duration: 1,
         });
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
-      notification.error({
-        message: "Error",
-        description: "Email or Password is not correct",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const onFinishFailed = (errorInfo) => {

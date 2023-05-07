@@ -50,7 +50,7 @@ const Sidebar = () => {
     getItem("Inbox", "request/inbox", <InboxOutlined />),
     getItem("Transactions", "payment", <CreditCardOutlined />),
     getItem("Medicines", "medicines", <MedicineBoxOutlined />),
-    getItem("New Appointment", "new-appointment", <CalendarOutlined />),
+    // getItem("New Appointment", "new-appointment", <CalendarOutlined />),
     getItem("New User", "new-user", <UserAddOutlined />),
     getItem("New Doctor", "new-doctor", <UserAddOutlined />),
     getItem("New Medicine", "new-medicine", <HeartOutlined />),
@@ -62,6 +62,7 @@ const Sidebar = () => {
     getItem("Sent", "request/sent", <SendOutlined />),
     getItem("New Prescription", "new-prescription", <FileTextOutlined />),
     getItem("New Request", "new-request", <SendOutlined />),
+    getItem("Schedule", "doctor/schedule", <ContactsOutlined />),
   ];
 
   const selectedKeys = [location.pathname.split("/")[1]];

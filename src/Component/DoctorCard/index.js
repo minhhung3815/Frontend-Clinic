@@ -53,15 +53,18 @@ const DoctorCard = () => {
       if (response.data.success === true) {
         setDoctorList(doctorList.filter((user) => user._id !== id));
         notification.success({
-          message: "Delete notification",
-          description: response.data.data,
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
         });
       }
     } catch (error) {
-      notification.error({
-        message: "Delete notification",
-        description: "Something went wrong",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 

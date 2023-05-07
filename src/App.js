@@ -37,6 +37,8 @@ import Sidebar from "Layout/Sidebar";
 import EditPrescription from "Pages/UpdatePrescription";
 import EditRequest from "Pages/EditResponse";
 import ViewRequest from "Pages/ViewResponse";
+import RoomScheduler from "Pages/DrSchedule";
+
 
 const roles = {
   role1: "manager",
@@ -122,7 +124,9 @@ const App = () => {
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
             <Route path="payment/:id" />
           </Route>
-          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+          <Route
+            element={<PrivateRoute allowedRoles={[roles.role2, roles.role3]} />}
+          >
             <Route path="calendar" element={<WorkCalendar />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
@@ -162,6 +166,11 @@ const App = () => {
               path="doctor/appointments"
               element={<DoctorAppointments />}
             />
+          </Route>
+          <Route
+            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
+          >
+            <Route path="doctor/schedule" element={<RoomScheduler />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
             <Route path="new-prescription" element={<NewPrescription />} />

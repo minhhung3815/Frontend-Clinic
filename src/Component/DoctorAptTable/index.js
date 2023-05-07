@@ -11,7 +11,7 @@ import {
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
 import NewContext from "Context/createContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const TableAppointment = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -61,19 +61,16 @@ const TableAppointment = () => {
         notification.success({
           message: "Success",
           description: response?.data?.data,
-        });
-      } else {
-        notification.error({
-          message: "Error",
-          description: "Something went wrong",
+          duration: 1,
         });
       }
     } catch (error) {
-      console.log(error);
-      notification.error({
-        message: "Error",
-        description: "Something went wrong",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 
@@ -111,12 +108,12 @@ const TableAppointment = () => {
         const start = s.toLocaleTimeString([], {
           hour: "numeric",
           minute: "2-digit",
-          hour12: true,
+          hour12: false,
         });
         const end = e.toLocaleTimeString([], {
           hour: "numeric",
           minute: "2-digit",
-          hour12: true,
+          hour12: false,
         });
         return `${start} - ${end}`;
       },

@@ -8,6 +8,7 @@ import NewContext from "Context/createContext";
 import useAuth from "Hook/useAuth";
 import "style.scss";
 import NewAppointmentModal from "Component/AppointmentModal";
+import Loading from "Layout/Loading";
 
 const DoctorAppointments = () => {
   const { auth } = useAuth();
@@ -17,17 +18,32 @@ const DoctorAppointments = () => {
   const [appointmentList, setAppointmentList] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axiosPrivate
-      .get(`/appointment/doctor/all`)
-      .then((res) => {
-        const appointmentData = res.data.data;
-        setAppointmentList(appointmentData);
-      })
-      .catch((error) => {
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getAppointments = async () => {
+      try {
+        const response = await axiosPrivate.get(`/appointment/doctor/all`, {
+          signal: controller.signal,
+        });
+        isMounted && setAppointmentList(response?.data?.data);
+      } catch (error) {
         console.log(error);
-      });
+        // navigate("/login", { state: { from: location }, replace: true });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getAppointments();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
 
   return (
@@ -61,8 +77,14 @@ const DoctorAppointments = () => {
             </Button>
           </div>
         </div>
-        <DoctorAptTable />
-        <NewAppointmentModal />
+        {loading ? (
+          <Loading size="large" />
+        ) : (
+          <>
+            <DoctorAptTable />
+            <NewAppointmentModal />
+          </>
+        )}
       </NewContext.Provider>
     </>
   );

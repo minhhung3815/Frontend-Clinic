@@ -25,18 +25,19 @@ const MedicineTable = () => {
       if (response.data.success) {
         setMedicineList(medicineList.filter((user) => user._id !== id));
         notification.success({
-          message: "Delete notification",
+          message: "Success",
           description: response.data.data,
-          duration: 2,
+          duration: 1,
         });
       }
     } catch (error) {
       console.log(error);
-      notification.error({
-        message: "Delete notification",
-        description: "Something went wrong",
-        duration: 2,
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const columns = [

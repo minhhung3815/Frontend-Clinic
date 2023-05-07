@@ -41,15 +41,6 @@ const Doctors = () => {
       isMounted = false;
       controller.abort();
     };
-    // axiosPrivate
-    //   .get("/user/account/doctor")
-    //   .then((res) => {
-    //     setDoctorList(res.data.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     // navigate('/error')
-    //   });
   }, []);
   return (
     <>

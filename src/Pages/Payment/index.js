@@ -43,7 +43,7 @@ const Payments = () => {
       <NewContext.Provider value={{ paymentList, setPaymentList }}>
         <div className="nav">
           <div>
-            <p style={{ fontSize: "25px" }}>Medicines</p>
+            <p style={{ fontSize: "25px" }}>Transactions</p>
           </div>
         </div>
         {loading ? <Loading size="large" /> : <PaymentTable />}

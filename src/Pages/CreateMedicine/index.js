@@ -39,16 +39,19 @@ const NewMedicine = () => {
     try {
       const response = await axiosPrivate.post(`/medicine/new`, values);
       notification.success({
-        message: "New medicine",
-        description: response.data.data,
+        message: "Success",
+        description: response?.data?.data,
+        duration: 1,
       });
       navigate(`/medicines`);
     } catch (error) {
-      console.log(error);
-      notification.error({
-        message: "New medicine",
-        description: "Create new medicine failed",
-      });
+      // console.log(error);
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const normFile = (e) => {

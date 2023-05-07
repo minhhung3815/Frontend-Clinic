@@ -53,19 +53,17 @@ const EditRequest = () => {
         notification.success({
           message: "Success",
           description: response?.data?.data,
+          duration: 1,
         });
         navigate(-1);
-      } else {
-        notification.error({
-          message: "Error",
-          description: "Something went wrong",
-        });
       }
     } catch (error) {
-      notification.error({
-        message: "Error",
-        description: "Something went wrong",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 

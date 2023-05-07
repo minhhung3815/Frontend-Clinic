@@ -24,6 +24,7 @@ import {
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import "style.scss";
+import Axios from "../../Axios/axios";
 import locale from "antd/es/date-picker/locale/en_US";
 const { Option } = Select;
 
@@ -44,22 +45,26 @@ const CreateWorkingSchedule = () => {
   const [form] = Form.useForm();
   const axiosPrivate = useAxiosPrivate();
   const onFinish = async (values) => {
-    // console.log(values);
     try {
       const response = await axiosPrivate.post(`/schedule/new`, {
         doctor_id: doctorId,
         ...values,
       });
-      notification.success({
-        message: "New schedule",
-        description: response.data.data,
-      });
-      navigate(`/schedule`);
+      console.log(response.response);
+      if (response?.status === 200) {
+        notification.success({
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
+        });
+        navigate(`/schedule`);
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error)
       // notification.error({
-      //   message: "New schedule",
-      //   description: "Create new user failed",
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
       // });
     }
   };
@@ -79,7 +84,8 @@ const CreateWorkingSchedule = () => {
 
   const optionsDoctor = doctorList.map((user) => renderOption(user));
   useEffect(() => {
-    axiosPrivate.get("/user/account/doctor")
+    axiosPrivate
+      .get("/user/account/doctor")
       .then((res) => {
         const doctorData = res.data.data;
         setDoctorList(doctorData);

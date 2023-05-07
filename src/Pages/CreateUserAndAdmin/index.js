@@ -53,16 +53,19 @@ const CreateUserAndAdmin = () => {
         },
       });
       notification.success({
-        message: "New user",
-        description: response.data.data,
+        message: "Success",
+        description: response?.data?.data,
+        duration: 1,
       });
       navigate(`/${values.role?.toLowerCase()}s`);
     } catch (error) {
-      console.log(error);
-      notification.error({
-        message: "New user",
-        description: "Create new user failed",
-      });
+      // console.log(error);
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const normFile = (e) => {

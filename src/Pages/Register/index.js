@@ -52,21 +52,18 @@ const RegisterPage = () => {
       });
       if (response?.data?.success) {
         notification.success({
-          message: "Register",
-          description: "Check your email for verification",
-        });
-      } else {
-        console.log(response);
-        notification.error({
-          message: "Register",
+          message: "Success",
           description: response?.data?.data,
+          duration: 1,
         });
       }
     } catch (error) {
-      notification.error({
-        message: "Register",
-        description: "Register failed",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
   const normFile = (e) => {

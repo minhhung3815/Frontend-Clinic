@@ -48,22 +48,27 @@ const EditSchedule = () => {
         `/schedule/update/${scheduleId}`,
         values
       );
-      notification.success({
-        message: "Edit schedule",
-        description: response.data.data,
-      });
-      navigate(`/schedule`);
+      if (response?.data?.success) {
+        notification.success({
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
+        });
+        navigate(`/schedule`);
+      }
     } catch (error) {
-      console.log(error);
-      notification.error({
-        message: "Edit schedule",
-        description: "Create new schedule failed",
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 
   useEffect(() => {
-    axiosPrivate.get(`/schedule/doctor/${scheduleId}`)
+    axiosPrivate
+      .get(`/schedule/doctor/${scheduleId}`)
       .then((res) => {
         const doctorData = res.data.data;
         const antdTime = doctorData.working_time.map((data) => {

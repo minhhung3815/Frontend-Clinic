@@ -60,18 +60,23 @@ const NewPrescription = () => {
         price: price,
         ...values,
       });
-      notification.success({
-        message: "New prescription",
-        description: response?.data?.data,
-      });
-      form.resetFields();
-      navigate(-1);
+      if (response?.data?.success) {
+        notification.success({
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
+        });
+        form.resetFields();
+        navigate(-1);
+      }
     } catch (error) {
       // console.log(error.response.data.data);
-      notification.error({
-        message: "New prescription",
-        description: error.response.data.data,
-      });
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 

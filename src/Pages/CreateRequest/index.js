@@ -45,14 +45,17 @@ const CreateRequest = () => {
       notification.success({
         message: "Success",
         description: response?.data?.data,
+        duration: 1,
       });
       navigate("/request/sent");
     } catch (error) {
-      console.log(error);
-      notification.error({
-        message: "Error",
-        description: "Send request failed. Please try again!!!",
-      });
+      // console.log(error);
+      console.log(error)
+      // notification.error({
+      //   message: "Error",
+      //   description: "Something went wrong",
+      //   duration: 1,
+      // });
     }
   };
 

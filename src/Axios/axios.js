@@ -2,7 +2,7 @@ import axios from "axios";
 import { LocalHttp, DeployedHttps } from "./Url";
 
 const Instance = axios.create({
-  baseURL: LocalHttp,
+  baseURL: DeployedHttps,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -11,7 +11,7 @@ const Instance = axios.create({
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: LocalHttp,
+  baseURL: DeployedHttps,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

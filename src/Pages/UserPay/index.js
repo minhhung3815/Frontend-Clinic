@@ -1,16 +1,11 @@
-import React from "react";
-import { Descriptions, Badge, Button } from "antd";
-import { useEffect, useState } from "react";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
+import Loading from "Layout/Loading";
+import { Button, Descriptions } from "antd";
+import { useEffect, useState } from "react";
 import {
   useNavigate,
-  useParams,
-  useSearchParams,
-  Redirect,
-  Navigate,
+  useParams
 } from "react-router-dom";
-import { redirect } from "react-router-dom";
-import Loading from "Layout/Loading";
 
 const UserPay = () => {
   const navigate = useNavigate();

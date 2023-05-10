@@ -9,7 +9,6 @@ import { UserData } from "Utils/Data";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./style.scss";
-import Sidebar from "Layout/Sidebar";
 const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();

@@ -1,20 +1,15 @@
-import { Button, Layout, Dropdown, Space, Avatar } from "antd";
-import React from "react";
-import NavLogo from "../../Static/Images/NavLogo.png";
-import { useNavigate } from "react-router-dom";
-import { Outlet, useLocation, matchPath } from "react-router-dom";
-import "./style.css";
-import { Menu } from "antd";
-import Sidebar from "Layout/Sidebar";
 import {
-  DownOutlined,
-  SmileOutlined,
-  UserOutlined,
   LogoutOutlined,
+  UserOutlined
 } from "@ant-design/icons";
 import Footer from "Component/Footer";
 import useAuth from "Hook/useAuth";
+import Sidebar from "Layout/Sidebar";
+import { Layout, Menu } from "antd";
+import { Outlet, matchPath, useLocation, useNavigate } from "react-router-dom";
 import Axios from "../../Axios/axios";
+import NavLogo from "../../Static/Images/NavLogo.png";
+import "./style.css";
 // import { useState } from 'react';
 
 const UserLayout = () => {

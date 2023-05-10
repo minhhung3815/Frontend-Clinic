@@ -1,13 +1,10 @@
 import {
-  CheckOutlined,
-  EditOutlined,
-  FileTextOutlined,
-  CheckCircleOutlined,
+  EditOutlined
 } from "@ant-design/icons";
 import ViewAppointment from "Component/ViewAppointmentModal";
 import NewContext from "Context/createContext";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
-import { Select, Space, Table, Tag, message, notification } from "antd";
+import { Space, Table, Tag, notification } from "antd";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,67 +17,67 @@ const TableAppointment = () => {
   const [appointmentData, setAppointmentData] = useState("");
   const [view, setView] = useState(false);
 
-  const handleAddPrescription = (appointmentId, prescriptionId = "") => {
-    if (!prescriptionId) {
-      navigate(`/new-prescription?appointmentId=${appointmentId}`);
-    } else {
-      notification.warning({
-        message: "Warning",
-        description: "Appointment already has prescription.",
-      });
-    }
-  };
+  // const handleAddPrescription = (appointmentId, prescriptionId = "") => {
+  //   if (!prescriptionId) {
+  //     navigate(`/new-prescription?appointmentId=${appointmentId}`);
+  //   } else {
+  //     notification.warning({
+  //       message: "Warning",
+  //       description: "Appointment already has prescription.",
+  //     });
+  //   }
+  // };
 
-  const handleUpdate = (appointmentId, prescriptionId = "") => {
-    if (prescriptionId) {
-      navigate(
-        `/edit-prescription?appointmentId=${appointmentId}&prescriptionId=${prescriptionId}`
-      );
-    } else {
-      notification.warning({
-        message: "Warning",
-        description:
-          "Appointment has no prescription. Please create a new one before edit",
-      });
-    }
-  };
+  // const handleUpdate = (appointmentId, prescriptionId = "") => {
+  //   if (prescriptionId) {
+  //     navigate(
+  //       `/edit-prescription?appointmentId=${appointmentId}&prescriptionId=${prescriptionId}`
+  //     );
+  //   } else {
+  //     notification.warning({
+  //       message: "Warning",
+  //       description:
+  //         "Appointment has no prescription. Please create a new one before edit",
+  //     });
+  //   }
+  // };
 
-  const handleClick = async (id, record) => {
-    try {
-      if (record?.status === "cancelled") {
-        return notification.warning({
-          message: "Warning",
-          description: "Appointment has already cancelled",
-        });
-      }
-      const response = await axiosPrivate.put(
-        `/appointment/update/status/${id}`,
-        {
-          ...record,
-          status: "examined",
-        }
-      );
-      if (response?.data?.success) {
-        setAppointmentList((prevItems) =>
-          prevItems.map((item) =>
-            item._id === id ? { ...item, status: "examined" } : item
-          )
-        );
-        notification.success({
-          message: "Success",
-          description: response?.data?.data,
-          duration: 1,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      // notification.error({
-      //   message: "Error",
-      //   description: "Something went wrong",
-      //   duration: 1,
-      // });
-    }
-  };
+  // const handleClick = async (id, record) => {
+  //   try {
+  //     if (record?.status === "cancelled") {
+  //       return notification.warning({
+  //         message: "Warning",
+  //         description: "Appointment has already cancelled",
+  //       });
+  //     }
+  //     const response = await axiosPrivate.put(
+  //       `/appointment/update/status/${id}`,
+  //       {
+  //         ...record,
+  //         status: "examined",
+  //       }
+  //     );
+  //     if (response?.data?.success) {
+  //       setAppointmentList((prevItems) =>
+  //         prevItems.map((item) =>
+  //           item._id === id ? { ...item, status: "examined" } : item
+  //         )
+  //       );
+  //       notification.success({
+  //         message: "Success",
+  //         description: response?.data?.data,
+  //         duration: 1,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     // notification.error({
+  //     //   message: "Error",
+  //     //   description: "Something went wrong",
+  //     //   duration: 1,
+  //     // });
+  //   }
+  // };
 
   const columns = [
     {

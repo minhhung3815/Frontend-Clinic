@@ -106,7 +106,7 @@ const NewAppointmentModal = () => {
         setAdd(false);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -128,7 +128,7 @@ const NewAppointmentModal = () => {
       setSelectedDate(date);
       setSelectedTime(null);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -303,7 +303,7 @@ const NewAppointmentModal = () => {
                 />
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
                   New Appointment
                 </Button>
               </Form.Item>

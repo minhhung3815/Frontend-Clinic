@@ -16,7 +16,7 @@ const Medicines = () => {
   const [medicineList, setMedicineList] = useState([]);
 
   const handleClick = () => {
-    navigate("/new-medicine");
+    navigate("/admin/new-medicine");
   };
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Medicines = () => {
           </div>
           <div>
             <PlusCircleOutlined
-              type="primary"
+              type="primary" style={{ background: "#1e8ed8" }}
               style={{ fontSize: "16px" }}
               onClick={handleClick}
             />

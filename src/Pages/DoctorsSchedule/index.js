@@ -14,7 +14,7 @@ const DoctorsSchedule = () => {
   const [scheduleList, setScheduleList] = useState([]);
 
   const handleClick = () => {
-    navigate("/new-schedule");
+    navigate("/admin/new-schedule");
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const DoctorsSchedule = () => {
           </div>
           <div>
             <CalendarOutlined
-              type="primary"
+              type="primary" style={{ background: "#1e8ed8" }}
               style={{ fontSize: "16px" }}
               onClick={handleClick}
             />

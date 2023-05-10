@@ -15,7 +15,7 @@ const Doctors = () => {
   const [doctorList, setDoctorList] = useState([]);
 
   function handleClick() {
-    navigate("/new-doctor");
+    navigate("/admin/new-doctor");
   }
   useEffect(() => {
     let isMounted = true;
@@ -51,7 +51,7 @@ const Doctors = () => {
           </div>
           <div>
             <UserAddOutlined
-              type="primary"
+              type="primary" style={{ background: "#1e8ed8" }}
               style={{ fontSize: "16px" }}
               onClick={handleClick}
             />

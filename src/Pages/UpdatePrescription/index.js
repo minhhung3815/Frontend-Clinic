@@ -1,17 +1,10 @@
 import {
   MinusCircleOutlined,
   PlusOutlined,
-  SendOutlined
+  SendOutlined,
 } from "@ant-design/icons";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-  Space,
-  notification
-} from "antd";
+import { Button, Form, Input, Select, Space, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "style.scss";
@@ -62,7 +55,7 @@ const EditPrescription = () => {
       }
     } catch (error) {
       // console.log(error.response.data.data);
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -229,8 +222,8 @@ const EditPrescription = () => {
         <Form.Item>
           <Button
             type="primary"
+            style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }}
             htmlType="submit"
-            style={{ marginLeft: "85%" }}
           >
             <SendOutlined />
             Submit

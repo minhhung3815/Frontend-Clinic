@@ -3,6 +3,7 @@ import { Button, Form, Input, notification } from "antd";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Axios from "../../Axios/axios";
+import "./index.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -28,21 +29,28 @@ const LoginPage = () => {
         const role = response?.data?.role;
         const username = response?.data?.username;
         localStorage.setItem("jwt", jwt);
+        localStorage.setItem("persist", true);
+        localStorage.setItem("isLogined", true);
+        localStorage.setItem("role", role);
         setAuth({ email, accessToken, role, username, id });
         notification.success({
           message: "Success",
           description: response?.data?.data,
           duration: 1,
         });
-        navigate("/");
+        role === "manager"
+          ? navigate("/admin/dashboard")
+          : role === "doctor"
+          ? navigate("/doctor/appointments")
+          : navigate(from);
       }
     } catch (error) {
-      console.log(error)
-      // notification.error({
-      //   message: "Error",
-      //   description: "Something went wrong",
-      //   duration: 1,
-      // });
+      console.log(error);
+      notification.error({
+        message: "Error",
+        description: error?.response?.data?.data,
+        duration: 1,
+      });
     }
   };
   const onFinishFailed = (errorInfo) => {
@@ -58,63 +66,62 @@ const LoginPage = () => {
   }, [persist]);
   return (
     <>
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        style={{
-          maxWidth: 600,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            {
-              type: "email",
-              message: "The input is not valid E-mail!",
-            },
-            {
-              required: true,
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+      <div className="login-page">
+        <div className="login-box">
+          <div className="illustration-wrapper">
+            <img
+              src="https://drsafehands.com/resources/assets/images/doctor.png"
+              alt="Login"
+            />
+          </div>
+          <Form
+            name="login-form"
+            initialValues={{ remember: true }}
+            onSubmit={(e) => e.preventDefault()}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+          >
+            <p className="form-title">Welcome back</p>
+            <p>Login to the Dashboard</p>
+            <Form.Item
+              name="email"
+              rules={[
+                { required: true, message: "Please input your username!" },
+              ]}
+            >
+              <Input placeholder="E-mail" />
+            </Form.Item>
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input.Password />
-          {/* <a href="/register">Create an account?</a> */}
-        </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
+            >
+              <Input.Password placeholder="Password" />
+            </Form.Item>
 
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+            {/* <Form.Item name="remember" valuePropName="checked">
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item> */}
+
+            <Form.Item>
+              <Button
+                type="primary"
+                style={{ background: "#1e8ed8" }}
+                htmlType="submit"
+                className="login-form-button"
+              >
+                SUBMIT
+              </Button>
+              Or{" "}
+              <a href="/register" style={{ color: "blue" }}>
+                Register now?
+              </a>
+            </Form.Item>
+          </Form>
+        </div>
+      </div>
     </>
   );
 };

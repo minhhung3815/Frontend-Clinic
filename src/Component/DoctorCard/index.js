@@ -44,7 +44,7 @@ const DoctorCard = () => {
   };
 
   const handleClick = (id) => {
-    navigate(`/edit/doctor/${id}`);
+    navigate(`/admin/edit/doctor/${id}`);
   };
 
   const handleDelete = async (id) => {

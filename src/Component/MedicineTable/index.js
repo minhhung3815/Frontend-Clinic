@@ -16,7 +16,7 @@ const MedicineTable = () => {
   const { medicineList, setMedicineList } = useContext(NewContext);
 
   const handleClick = (id) => {
-    navigate(`/medicines/${id}`);
+    navigate(`/admin/medicines/${id}`);
   };
 
   const handleDelete = async (id) => {

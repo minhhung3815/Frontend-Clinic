@@ -12,7 +12,7 @@ const Unauthorized = () => {
       subTitle="Sorry, you are not authorized to access this page."
       extra={
         <Button
-          type="primary"
+          type="primary" style={{ background: "#1e8ed8" }}
           onClick={() => {
             goBack();
           }}

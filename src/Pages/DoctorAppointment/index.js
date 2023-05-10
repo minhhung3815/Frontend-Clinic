@@ -63,7 +63,7 @@ const DoctorAppointments = () => {
           <div>
             <Button
               type="primary"
-              style={{ fontSize: "16px" }}
+              style={{ background: "#1e8ed8", fontSize: "16px" }}
               onClick={() => {
                 setIsModalOpen(true);
                 setDoctorName(auth?.username);

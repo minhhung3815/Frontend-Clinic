@@ -1,6 +1,18 @@
 import {
-  CalendarOutlined, ContactsOutlined, CreditCardOutlined, DashboardOutlined, FileTextOutlined, HeartOutlined, IdcardOutlined,
-  InboxOutlined, MedicineBoxOutlined, ScheduleOutlined, SendOutlined, TeamOutlined, UserAddOutlined, UserOutlined
+  CalendarOutlined,
+  ContactsOutlined,
+  CreditCardOutlined,
+  DashboardOutlined,
+  FileTextOutlined,
+  HeartOutlined,
+  IdcardOutlined,
+  InboxOutlined,
+  MedicineBoxOutlined,
+  ScheduleOutlined,
+  SendOutlined,
+  TeamOutlined,
+  UserAddOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -24,21 +36,21 @@ const Sidebar = () => {
     };
   };
   const itemsManager = [
-    getItem("Dashboard", "dashboard", <DashboardOutlined />),
-    getItem("Doctors", "doctors", <TeamOutlined />),
-    getItem("Users", "users", <UserOutlined />),
-    getItem("Managers", "managers", <IdcardOutlined />),
-    getItem("Appointments", "appointments", <ContactsOutlined />),
-    getItem("Doctor Schedule", "schedule", <CalendarOutlined />),
-    getItem("Prescriptions", "prescriptions", <FileTextOutlined />),
-    getItem("Inbox", "request/inbox", <InboxOutlined />),
-    getItem("Transactions", "payment", <CreditCardOutlined />),
-    getItem("Medicines", "medicines", <MedicineBoxOutlined />),
+    getItem("Dashboard", "/admin/dashboard", <DashboardOutlined />),
+    getItem("Doctors", "/admin/doctors", <TeamOutlined />),
+    getItem("Users", "/admin/users", <UserOutlined />),
+    getItem("Managers", "/admin/managers", <IdcardOutlined />),
+    getItem("Appointments", "/admin/appointments", <ContactsOutlined />),
+    getItem("Doctor Schedule", "/admin/schedule", <CalendarOutlined />),
+    getItem("Prescriptions", "/admin/prescriptions", <FileTextOutlined />),
+    getItem("Inbox", "/admin/request/inbox", <InboxOutlined />),
+    getItem("Transactions", "/admin/payment", <CreditCardOutlined />),
+    getItem("Medicines", "/admin/medicines", <MedicineBoxOutlined />),
     // getItem("New Appointment", "new-appointment", <CalendarOutlined />),
-    getItem("New User", "new-user", <UserAddOutlined />),
-    getItem("New Doctor", "new-doctor", <UserAddOutlined />),
-    getItem("New Medicine", "new-medicine", <HeartOutlined />),
-    getItem("New Schedule", "new-schedule", <ScheduleOutlined />),
+    getItem("New User", "/admin/new-user", <UserAddOutlined />),
+    getItem("New Doctor", "/admin/new-doctor", <UserAddOutlined />),
+    getItem("New Medicine", "/admin/new-medicine", <HeartOutlined />),
+    getItem("New Schedule", "/admin/new-schedule", <ScheduleOutlined />),
   ];
 
   const itemsDoctor = [

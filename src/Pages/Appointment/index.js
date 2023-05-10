@@ -17,7 +17,7 @@ const Appointments = () => {
   const [doctorList, setDoctorList] = useState([]);
 
   function handleClick() {
-    navigate("/doctors");
+    navigate("/admin/doctors");
   }
   useEffect(() => {
     let isMounted = true;

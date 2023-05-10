@@ -11,7 +11,7 @@ import {
   Input,
   Radio,
   Select,
-  notification
+  notification,
 } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -117,7 +117,7 @@ const EditAppointment = () => {
       const slots = !response?.data?.data ? [] : response?.data?.data;
       setSlot(slots);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -378,8 +378,12 @@ const EditAppointment = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Edit Appointment
+        <Button
+          type="primary"
+          style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }}
+          htmlType="submit"
+        >
+          Update Appointment
         </Button>
       </Form.Item>
     </Form>

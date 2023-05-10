@@ -1,6 +1,7 @@
 import {
   EditOutlined,
   FileTextOutlined,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
 import NewContext from "Context/createContext";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
@@ -38,6 +39,8 @@ const ViewAppointment = () => {
   const [form] = Form.useForm();
   const axiosPrivate = useAxiosPrivate();
   const [appointmentId, setAppointmentId] = useState("");
+  const [status, setStatus] = useState("");
+  const [service, setService] = useState([]);
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -57,7 +60,7 @@ const ViewAppointment = () => {
         `/appointment/update/status/${appointmentId}`,
         {
           ...appointmentData,
-          status: values?.status,
+          service: service,
         }
       );
       if (response.data.success === true) {
@@ -71,11 +74,6 @@ const ViewAppointment = () => {
       }
     } catch (error) {
       console.log(error);
-      // notification.error({
-      //   message: "Error",
-      //   description: "Something went wrong",
-      //   duration: 1,
-      // });
     }
   };
 
@@ -91,6 +89,42 @@ const ViewAppointment = () => {
         message: "Warning",
         description: "Appointment already has prescription.",
       });
+    }
+  };
+
+  const handleEndAppointment = async () => {
+    try {
+      if (status === "examined" || status === "finished") {
+        return notification.warning({
+          message: "Warning",
+          description: "Appointment has ended",
+        });
+      }
+      if (status === "cancelled") {
+        return notification.warning({
+          message: "Warning",
+          description: "Appointment has been cancelled",
+        });
+      }
+      const response = await axiosPrivate.put(
+        `/appointment/update/examined/${appointmentId}`,
+        {
+          ...appointmentData,
+          status: "examined",
+          service: service,
+        }
+      );
+      if (response.data.success === true) {
+        notification.success({
+          message: "Success",
+          description: response?.data?.data,
+          duration: 1,
+        });
+        window.location.reload();
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -114,6 +148,8 @@ const ViewAppointment = () => {
 
   useEffect(() => {
     setAppointmentId(appointmentData?._id);
+    setStatus(appointmentData?.status);
+    setService(appointmentData?.service);
     form.setFieldsValue({
       aptid: appointmentData?.appointmentId,
       patientname: appointmentData?.patient_name,
@@ -173,14 +209,33 @@ const ViewAppointment = () => {
           />
         </Form.Item>
 
-        <Form.Item name="service" label="Service">
+        <Form.Item
+          name="service"
+          label="Service"
+          rules={[{ required: true, message: "Please select a service" }]}
+        >
           <Select
-            mode="multiple"
             placeholder="Select service"
+            mode="multiple"
             options={Services}
+            disabled={status !== "waiting"}
             showSearch
             allowClear
-            disabled
+            onSelect={(_, value) => {
+              setService([
+                ...service,
+                { type: value.value, price: value.price },
+              ]);
+            }}
+            onDeselect={(_, value) => {
+              const newArray = service.filter(
+                (item) => item.type !== value.value
+              );
+              setService(newArray);
+            }}
+            onClear={(_, value) => {
+              setService([]);
+            }}
             style={{ textAlign: "left" }}
           ></Select>
         </Form.Item>
@@ -192,12 +247,6 @@ const ViewAppointment = () => {
             maxLength={100}
             placeholder="Enter description"
           />
-        </Form.Item>
-
-        <Form.Item name="status" label="Status">
-          <Select>
-            <Select.Option value="examined" />
-          </Select>
         </Form.Item>
 
         <Form.Item>
@@ -215,8 +264,19 @@ const ViewAppointment = () => {
               onClick={handleUpdate}
               style={{ color: "blue", fontSize: "20px" }}
             />
-            <Button type="primary" htmlType="submit">
-              Save
+            <CheckCircleOutlined
+              type="link"
+              title="End appointment"
+              onClick={handleEndAppointment}
+              style={{ color: "green", fontSize: "20px" }}
+            />
+
+            <Button
+              type="primary"
+              style={{ background: "#1e8ed8" }}
+              htmlType="submit"
+            >
+              Submit
             </Button>
           </Space>
         </Form.Item>

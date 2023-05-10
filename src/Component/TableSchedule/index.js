@@ -32,7 +32,7 @@ const TableSchedule = () => {
   };
 
   const handleClick = (id) => {
-    navigate(`/edit-schedule/${id}`);
+    navigate(`/admin/edit-schedule/${id}`);
   };
 
   const columns = [

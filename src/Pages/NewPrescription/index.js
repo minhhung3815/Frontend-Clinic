@@ -71,7 +71,7 @@ const NewPrescription = () => {
       }
     } catch (error) {
       // console.log(error.response.data.data);
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -222,10 +222,9 @@ const NewPrescription = () => {
         <Form.Item>
           <Button
             type="primary"
+            style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }}
             htmlType="submit"
-            style={{ marginLeft: "85%" }}
           >
-            <SendOutlined />
             Submit
           </Button>
         </Form.Item>

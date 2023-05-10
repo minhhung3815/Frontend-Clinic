@@ -53,7 +53,7 @@ const TableAppointment = () => {
   };
 
   function handleClick(id) {
-    navigate(`/edit-appointment/${id}`);
+    navigate(`/admin/edit-appointment/${id}`);
   }
 
   const optionDoctor = (doctorData) => {

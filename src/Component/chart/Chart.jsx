@@ -11,24 +11,8 @@ import {
 import NewContext from "Context/createContext";
 import { useContext } from "react";
 
-const data = [
-  { name: "Jan", total: 1200 },
-  { name: "Feb", total: 3000 },
-  { name: "Mar", total: 1002 },
-  { name: "Apr", total: 900 },
-  { name: "May", total: 500 },
-  { name: "June", total: 3200 },
-  { name: "July", total: 1200 },
-  { name: "Aug", total: 1200 },
-  { name: "Sep", total: 100 },
-  { name: "Oct", total: 120 },
-  { name: "Nov", total: 3200 },
-  { name: "Dec", total: 2100 },
-];
-
 const Chart = () => {
   const { totalAppointments } = useContext(NewContext);
-  console.log(totalAppointments);
   return (
     <div className="chart">
       <div className="title">Total Appointments</div>

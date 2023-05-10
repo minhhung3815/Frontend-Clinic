@@ -11,7 +11,7 @@ const Error500 = () => {
       title="500"
       subTitle="Sorry, something went wrong."
       extra={
-        <Button type="primary" onClick={goBack}>
+        <Button type="primary" style={{ background: "#1e8ed8" }} onClick={goBack}>
           Back Home
         </Button>
       }

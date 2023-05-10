@@ -234,7 +234,7 @@ const RegisterPage = () => {
       )}
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
           Submit
         </Button>
       </Form.Item>

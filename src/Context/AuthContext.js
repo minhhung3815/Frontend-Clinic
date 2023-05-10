@@ -8,7 +8,9 @@ export const AuthProvider = ({ children }) => {
   // );
 
   const [auth, setAuth] = useState({});
-  const [persist, setPersist] = useState(true);
+  const [persist, setPersist] = useState(
+    localStorage.getItem("persist") || false
+  );
   return (
     <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>
       {children}

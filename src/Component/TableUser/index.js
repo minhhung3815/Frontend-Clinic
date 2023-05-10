@@ -16,18 +16,20 @@ const TableUser = () => {
   const axiosPrivate = useAxiosPrivate();
   const { userList, setUserList } = useContext(NewContext);
   const handleAdd = () => {
-    navigate({ pathname: "/new-user", search: "?role=user" });
+    navigate({ pathname: "/admin/new-user", search: "?role=user" });
   };
   function handleClick(selectedId) {
     navigate({
-      pathname: `/edit/account/${selectedId}`,
+      pathname: `/admin/edit/account/${selectedId}`,
       search: "?role=user",
     });
   }
 
   const handleDelete = async (id) => {
     try {
-      const response = await axiosPrivate.delete(`/user/remove/account/${id}`);
+      const response = await axiosPrivate.delete(
+        `/admin/user/remove/account/${id}`
+      );
       if (response.data.success === true) {
         setUserList(userList.filter((user) => user._id !== id));
         notification.success({
@@ -37,7 +39,7 @@ const TableUser = () => {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -110,7 +112,7 @@ const TableUser = () => {
         </div>
         <div>
           <UserAddOutlined
-            type="primary"
+            type="primary" style={{ background: "#1e8ed8" }}
             style={{ fontSize: "16px" }}
             onClick={handleAdd}
           />

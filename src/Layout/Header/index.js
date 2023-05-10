@@ -21,6 +21,7 @@ const Header = () => {
       );
       localStorage.clear();
       setAuth({});
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

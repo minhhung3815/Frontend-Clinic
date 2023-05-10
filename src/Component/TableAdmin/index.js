@@ -18,12 +18,12 @@ const TableManager = () => {
   const { managerList, setManagerList } = useContext(NewContext);
 
   const handleAdd = () => {
-    navigate({ pathname: "/new-user", search: "?role=manager" });
+    navigate({ pathname: "/admin/new-user", search: "?role=manager" });
   };
 
   function handleClick(selectedId) {
     navigate({
-      pathname: `/edit/account/${selectedId}`,
+      pathname: `/admin/edit/account/${selectedId}`,
       search: "?role=manager",
     });
   }
@@ -119,7 +119,7 @@ const TableManager = () => {
         <div>
           <UserAddOutlined
             type="primary"
-            style={{ fontSize: "16px" }}
+            style={{ background: "#1e8ed8", fontSize: "16px" }}
             onClick={handleAdd}
           />
         </div>

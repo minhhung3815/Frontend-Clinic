@@ -1,18 +1,24 @@
 import {
   CheckOutlined,
   EditOutlined,
-  FileTextOutlined
+  FileTextOutlined,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
+import ViewAppointment from "Component/ViewAppointmentModal";
 import NewContext from "Context/createContext";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
-import { Space, Table, Tag, notification } from "antd";
-import { useContext } from "react";
+import { Select, Space, Table, Tag, message, notification } from "antd";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const TableAppointment = () => {
   const axiosPrivate = useAxiosPrivate();
+  const [status, setStatus] = useState("");
   const { appointmentList, setAppointmentList } = useContext(NewContext);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [appointmentData, setAppointmentData] = useState("");
+  const [view, setView] = useState(false);
 
   const handleAddPrescription = (appointmentId, prescriptionId = "") => {
     if (!prescriptionId) {
@@ -41,6 +47,12 @@ const TableAppointment = () => {
 
   const handleClick = async (id, record) => {
     try {
+      if (record?.status === "cancelled") {
+        return notification.warning({
+          message: "Warning",
+          description: "Appointment has already cancelled",
+        });
+      }
       const response = await axiosPrivate.put(
         `/appointment/update/status/${id}`,
         {
@@ -61,7 +73,7 @@ const TableAppointment = () => {
         });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -135,31 +147,14 @@ const TableAppointment = () => {
       title: "Action",
       render: (_, record) => (
         <Space size="middle">
-          <FileTextOutlined
-            type="link"
-            title="New prescription"
-            onClick={() => {
-              handleAddPrescription(record?._id, record?.prescription_id);
-            }}
-            style={{ color: "red", fontSize: "15px" }}
-          />
-
           <EditOutlined
             type="link"
             title="Edit prescription"
             onClick={() => {
-              handleUpdate(record?._id, record?.prescription_id);
+              setIsModalOpen(true);
+              setAppointmentData(record);
             }}
             style={{ color: "blue", fontSize: "15px" }}
-          />
-
-          <CheckOutlined
-            type="link"
-            title="Update status"
-            onClick={() => {
-              handleClick(record?._id, record);
-            }}
-            style={{ color: "green", fontSize: "15px" }}
           />
         </Space>
       ),
@@ -167,7 +162,20 @@ const TableAppointment = () => {
   ];
 
   // useEffect(() => {}, [appointmentList]);
-  return <Table columns={columns} dataSource={appointmentList} rowKey="_id" />;
+
+  return (
+    <NewContext.Provider
+      value={{
+        isModalOpen,
+        setIsModalOpen,
+        appointmentData,
+        setView,
+      }}
+    >
+      <Table columns={columns} dataSource={appointmentList} rowKey="_id" />;
+      <ViewAppointment />
+    </NewContext.Provider>
+  );
 };
 
 export default TableAppointment;

@@ -27,7 +27,6 @@ const PersistLogin = () => {
     return () => (isMounted = false);
   }, []);
 
-
   return (
     <>
       {!persist ? (

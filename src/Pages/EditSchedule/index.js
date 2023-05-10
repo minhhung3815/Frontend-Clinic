@@ -54,7 +54,7 @@ const EditSchedule = () => {
           description: response?.data?.data,
           duration: 1,
         });
-        navigate(`/schedule`);
+        navigate(`/admin/schedule`);
       }
     } catch (error) {
       console.log(error)
@@ -164,7 +164,7 @@ const EditSchedule = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
           Submit
         </Button>
       </Form.Item>

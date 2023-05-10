@@ -1,4 +1,5 @@
 import AppLayout from "Layout/AppLayout";
+import "./App.css";
 import Dashboard from "Pages/Dashboard";
 import Doctors from "Pages/Doctors";
 import Edit from "Pages/Edit";
@@ -38,7 +39,18 @@ import EditPrescription from "Pages/UpdatePrescription";
 import EditRequest from "Pages/EditResponse";
 import ViewRequest from "Pages/ViewResponse";
 import RoomScheduler from "Pages/DrSchedule";
-
+import UserLayout from "Layout/UserLayout";
+import useAuth from "Hook/useAuth";
+import Home from "Pages/Home";
+import Services from "Pages/Services";
+import Contact from "Pages/Contact";
+import { useState, useEffect } from "react";
+import DoctorsList from "Pages/DoctorsList";
+import DoctorDetail from "Pages/DoctorProfile";
+import UserAppointment from "Pages/UserAppointment";
+import UserSchedule from "Pages/UserSchedule";
+import UserPay from "Pages/UserPay";
+import SuccessfulPayment from "Pages/SuccessfulPayment";
 
 const roles = {
   role1: "manager",
@@ -52,65 +64,87 @@ const roles = {
 const App = () => {
   return (
     <Routes>
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/notfound" element={<NotFound />} />
+      <Route path="/error500" element={<Error500 />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route element={<AppLayout />}>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/notfound" element={<NotFound />} />
-        <Route path="/error500" element={<Error500 />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="" element={<Navigate to="/home" />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/doctors" element={<DoctorsList />} />
+        <Route path="/doctors/:id" element={<DoctorDetail />} />
+        <Route path="/contact" element={<Contact />} />
         {/** protected routes */}
         <Route element={<PersistLogin />}>
-          {/* <Route path="/" element={<AppLayout />}> */}
-          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="dashboard" element={<Dashboard />} />
+          <Route
+            element={
+              <PrivateRoute
+                allowedRoles={[roles.role1, roles.role2, roles.role3]}
+              />
+            }
+          >
+            <Route path="/appointments" element={<UserAppointment />} />
+          </Route>
+          <Route
+            element={
+              <PrivateRoute
+                allowedRoles={[roles.role1, roles.role2, roles.role3]}
+              />
+            }
+          >
+            <Route path="/appointment-schedule" element={<UserSchedule />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role3]} />}>
+            <Route path="/user-payment/:appointmentId" element={<UserPay />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role3]} />}>
+            <Route path="/payment/execute-payment" element={<SuccessfulPayment />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role3]} />}>
+            <Route path="/payment/cancel-payment" element={<cA />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="doctors" element={<Doctors />} />
+            <Route path="/admin/dashboard" element={<Dashboard />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="users" element={<Users />} />
+            <Route path="/admin/doctors" element={<Doctors />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="managers" element={<Managers />} />
+            <Route path="/admin/users" element={<Users />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="edit/account/:userId" element={<Edit />} />
+            <Route path="/admin/managers" element={<Managers />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="edit/doctor/:userId" element={<EditDoctor />} />
+            <Route path="/admin/edit/account/:userId" element={<Edit />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="appointments" element={<Appointments />} />
+            <Route path="/admin/edit/doctor/:userId" element={<EditDoctor />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+            <Route path="/admin/appointments" element={<Appointments />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
             <Route
-              path="edit-appointment/:appointmentId"
+              path="/admin/edit-appointment/:appointmentId"
               element={<EditAppointment />}
             />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="schedule" element={<DoctorsSchedule />} />
+            <Route path="/admin/schedule" element={<DoctorsSchedule />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
             <Route
-              path="edit-schedule/:scheduleId"
+              path="/admin/edit-schedule/:scheduleId"
               element={<EditSchedule />}
             />
           </Route>
-          <Route
-            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
-          >
-            <Route path="new-appointment" element={<NewAppointment />} />
+          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+            <Route path="/admin/prescriptions" element={<Prescriptions />} />
           </Route>
-          <Route
-            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
-          >
-            <Route path="prescriptions" element={<Prescriptions />} />
-          </Route>
-          <Route
-            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
-          >
+          <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
             <Route path="edit-prescription" element={<EditPrescription />} />
           </Route>
           <Route
@@ -119,33 +153,34 @@ const App = () => {
             <Route path="prescriptions/:id" />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="payment" element={<Payments />} />
+            <Route path="/admin/payment" element={<Payments />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="payment/:id" />
-          </Route>
-          <Route
-            element={<PrivateRoute allowedRoles={[roles.role2, roles.role3]} />}
-          >
-            <Route path="calendar" element={<WorkCalendar />} />
+            <Route path="/admin/payment/:id" />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="medicines" element={<Medicines />} />
+            <Route path="/admin/medicines" element={<Medicines />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="medicines/:medicineId" element={<EditMedicine />} />
+            <Route
+              path="/admin/medicines/:medicineId"
+              element={<EditMedicine />}
+            />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="new-user" element={<CreateUserAndAdmin />} />
+            <Route path="/admin/new-user" element={<CreateUserAndAdmin />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="new-doctor" element={<CreateDoctor />} />
+            <Route path="/admin/new-doctor" element={<CreateDoctor />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="request/inbox" element={<InboxMail />} />
+            <Route path="/admin/request/inbox" element={<InboxMail />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="request/inbox/:requestId" element={<EditRequest />} />
+            <Route
+              path="/admin/request/inbox/:requestId"
+              element={<EditRequest />}
+            />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
             <Route path="request/sent" element={<SentMail />} />
@@ -154,10 +189,13 @@ const App = () => {
             <Route path="request/sent/:requestId" element={<ViewRequest />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="new-medicine" element={<NewMedicine />} />
+            <Route path="/admin/new-medicine" element={<NewMedicine />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
-            <Route path="new-schedule" element={<CreateWorkingSchedule />} />
+            <Route
+              path="/admin/new-schedule"
+              element={<CreateWorkingSchedule />}
+            />
           </Route>
           <Route
             element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
@@ -179,11 +217,10 @@ const App = () => {
             <Route path="new-request" element={<CreateRequest />} />
           </Route>
           {/* </Route> */}
+          {/* Catch all path */}
         </Route>
-        {/* Catch all path */}
-        <Route path="*" element={<NotFound />} />
       </Route>
-      {/** public routes */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

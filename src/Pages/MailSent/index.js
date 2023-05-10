@@ -52,7 +52,7 @@ const SentMail = () => {
           </div>
           <div>
             <PlusCircleOutlined
-              type="primary"
+              type="primary" style={{ background: "#1e8ed8" }}
               style={{ fontSize: "16px" }}
               onClick={handleClick}
             />

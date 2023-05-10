@@ -16,7 +16,7 @@ const InboxTable = () => {
   const navigate = useNavigate();
   const { requestList, setRequestList } = useContext(NewContext);
   const handleClick = (id) => {
-    navigate(`/request/inbox/${id}`);
+    navigate(`/admin/request/inbox/${id}`);
   };
 
   const handleDelete = async (id) => {

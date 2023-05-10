@@ -12,7 +12,7 @@ import {
   Modal,
   Select,
   TimePicker,
-  notification
+  notification,
 } from "antd";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
@@ -101,7 +101,7 @@ const DoctorAppointmentModal = () => {
         setAdd(false);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -123,7 +123,7 @@ const DoctorAppointmentModal = () => {
       setSelectedDate(date);
       setSelectedTime(null);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -269,7 +269,15 @@ const DoctorAppointmentModal = () => {
               />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                style={{
+                  background: "#1e8ed8",
+                  width: "100%",
+                  marginLeft: "25%",
+                }}
+                htmlType="submit"
+              >
                 New Appointment
               </Button>
             </Form.Item>

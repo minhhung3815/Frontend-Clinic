@@ -43,7 +43,7 @@ const NewMedicine = () => {
         description: response?.data?.data,
         duration: 1,
       });
-      navigate(`/medicines`);
+      navigate(`/admin/medicines`);
     } catch (error) {
       // console.log(error);
       console.log(error)
@@ -172,7 +172,7 @@ const NewMedicine = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
           Submit
         </Button>
       </Form.Item>

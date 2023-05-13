@@ -36,7 +36,7 @@ const MeetDoctorSection = () => {
   return (
     <div className="container mx-auto py-8">
       <h2 className="text-2xl md:text-5xl pb-4 md:py-8 text-center primary-color font-bold">
-        Meet Our Doctors
+        Meet Our Dentists
       </h2>
       <p className="text-justify px-5 md:px-0 md:text-center text-xl md:w-2/3 mx-auto mb-12">
         Our administration and support staff all have exceptional people skills

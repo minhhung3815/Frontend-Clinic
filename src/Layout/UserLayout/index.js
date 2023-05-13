@@ -5,7 +5,7 @@ import {
 import Footer from "Component/Footer";
 import useAuth from "Hook/useAuth";
 import Sidebar from "Layout/Sidebar";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Space } from "antd";
 import { Outlet, matchPath, useLocation, useNavigate } from "react-router-dom";
 import Axios from "../../Axios/axios";
 import NavLogo from "../../Static/Images/NavLogo.png";
@@ -113,11 +113,12 @@ const UserLayout = () => {
   };
 
   return (
-    <Layout>
+    <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
+    <Layout style={{backgroundColor:'white'}}>
       <Layout.Header className="headerStyle">
         <img src={NavLogo} alt="" className="Logo" />
         <span className="spanx"></span>
-        {
+        
           <Menu
             selectedKeys={selectedKeys}
             onClick={onClick}
@@ -129,7 +130,7 @@ const UserLayout = () => {
             }
             className="header"
           />
-        }
+        
         <span className="spanx"></span>
         {isLogined ? (
           <>
@@ -171,6 +172,7 @@ const UserLayout = () => {
           ></Menu>
         )}
       </Layout.Header>
+
       <Layout hasSider>
         {isPathWithoutParamsMatch ? (
           <>
@@ -194,13 +196,10 @@ const UserLayout = () => {
           </Layout.Content>
         )}
       </Layout>
-      )
-      <Layout>
-        <Layout.Footer>
-          {isPathWithoutParamsMatch ? null : <Footer />}
-        </Layout.Footer>
-      </Layout>
+
+      {isPathWithoutParamsMatch ? null : <Footer />} 
     </Layout>
+    </Space>
   );
 };
 

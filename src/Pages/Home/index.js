@@ -1,17 +1,20 @@
-import HeroSection from "Component/HeroSection/HeroSection"
 import WelcomeSection from "Component/WelcomeSection/WelcomeSection"
 import ServiceSection from "Pages/ServiceSection/ServiceSection"
 import MeetDoctorSection from "Pages/MeetDoctorSection/MeetDoctorSection"
-import AppointmentSection from "Component/AppointmentSection/AppointmentSection"
-
+import Banner from "Component/Banner/Banner"
+import Promo from "Component/Appoinment-promo/Promo"
+import Feature from "Component/Feature/Feature"
+import Service from "Component/Service/Service"
+import './style.css'
 const Home = () => {
   return (
     <div>
-      <HeroSection></HeroSection>
+      <Banner/>
       <WelcomeSection></WelcomeSection>
-      <ServiceSection></ServiceSection>
+      <Feature></Feature>
+      <Service></Service>
       <MeetDoctorSection></MeetDoctorSection>
-      <AppointmentSection></AppointmentSection>
+      <Promo/>
     </div>
 
   )

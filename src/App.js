@@ -33,7 +33,7 @@ import Users from "Pages/Patients";
 import Payments from "Pages/Payment";
 import Prescriptions from "Pages/Prescriptions";
 import RegisterPage from "Pages/Register";
-import Services from "Pages/Services";
+// import Services from "Pages/Services";
 import SuccessfulPayment from "Pages/SuccessfulPayment";
 import EditPrescription from "Pages/UpdatePrescription";
 import UserAppointment from "Pages/UserAppointment";
@@ -66,7 +66,7 @@ const App = () => {
       <Route element={<AppLayout />}>
         <Route path="/home" element={<Home />} />
         <Route path="" element={<Navigate to="/home" />} />
-        <Route path="/services" element={<Services />} />
+        {/* <Route path="/services" element={<Services />} /> */}
         <Route path="/doctors" element={<DoctorsList />} />
         <Route path="/doctors/:id" element={<DoctorDetail />} />
         <Route path="/contact" element={<Contact />} />

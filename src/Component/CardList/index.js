@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Card, Col, Row } from "antd";
-import { UserOutlined, HeartOutlined } from "@ant-design/icons";
+// import { UserOutlined, HeartOutlined } from "@ant-design/icons";
 import NewContext from "Context/createContext";
 import "./style.scss";
 const CardList = () => {

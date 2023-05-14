@@ -9,6 +9,9 @@
     padding: 50px 56px;
     margin-top: 30px;
     transition: .4s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .doctors-profile {

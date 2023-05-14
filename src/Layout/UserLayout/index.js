@@ -113,11 +113,11 @@ const UserLayout = () => {
   };
 
   return (
-    <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
+    
     <Layout style={{backgroundColor:'white'}}>
       <Layout.Header className="headerStyle">
         <img src={NavLogo} alt="" className="Logo" />
-        <span className="spanx"></span>
+        <span className="spanx"></span>``
         
           <Menu
             selectedKeys={selectedKeys}
@@ -199,7 +199,7 @@ const UserLayout = () => {
 
       {isPathWithoutParamsMatch ? null : <Footer />} 
     </Layout>
-    </Space>
+   
   );
 };
 

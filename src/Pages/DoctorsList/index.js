@@ -1,4 +1,3 @@
-import DoctorCard from "Component/DoctorCard";
 import "./style.scss";
 import { Button, Empty } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +5,6 @@ import { useEffect, useState } from "react";
 import UserContext from "Context/createContext";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import Loading from "Layout/Loading";
-import { MoreOutlined, UserAddOutlined } from "@ant-design/icons";
 import DoctorCardUser from "Component/DoctorCardUser";
 
 const DoctorsList = () => {

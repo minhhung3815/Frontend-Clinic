@@ -1,0 +1,12 @@
+.banner-animate{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.section-title{
+    font-size: 65px;
+    margin-top: 40px;
+}
+.breadcrumb-nav{
+    font-size: 20px;
+}

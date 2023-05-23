@@ -13,6 +13,8 @@ import {
   TeamOutlined,
   UserAddOutlined,
   UserOutlined,
+  AppstoreOutlined,
+  PlusSquareOutlined
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +48,8 @@ const Sidebar = () => {
     getItem("Inbox", "/admin/request/inbox", <InboxOutlined />),
     getItem("Transactions", "/admin/payment", <CreditCardOutlined />),
     getItem("Medicines", "/admin/medicines", <MedicineBoxOutlined />),
-    // getItem("New Appointment", "new-appointment", <CalendarOutlined />),
+    getItem("Services", "/admin/services", <AppstoreOutlined />),
+    getItem("New Service", "/admin/new-service", <PlusSquareOutlined />),
     getItem("New User", "/admin/new-user", <UserAddOutlined />),
     getItem("New Doctor", "/admin/new-doctor", <UserAddOutlined />),
     getItem("New Medicine", "/admin/new-medicine", <HeartOutlined />),

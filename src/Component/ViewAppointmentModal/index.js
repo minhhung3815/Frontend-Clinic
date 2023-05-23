@@ -48,7 +48,7 @@ const ViewAppointment = () => {
   };
 
   const handleCancel = () => {
-    form.resetFields();
+    // form.resetFields();
     setIsModalOpen(false);
     setView(false);
   };
@@ -167,7 +167,7 @@ const ViewAppointment = () => {
       status: appointmentData?.status,
       description: appointmentData?.description,
     });
-  }, [form, appointmentData]);
+  }, [appointmentData, form]);
   return (
     <Modal
       title="Update Appointment"

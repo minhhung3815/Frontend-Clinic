@@ -1,34 +1,15 @@
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import Loading from "Layout/Loading";
-import { Button, Descriptions } from "antd";
+import { Descriptions, Tag } from "antd";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const UserPay = () => {
-  const navigate = useNavigate();
+const Billing = () => {
   const [total, setTotal] = useState(0);
   const { appointmentId } = useParams();
-  const abc = useParams();
-  // console.log(appointmentId, abc);
   const [appointmentData, setAppointmentData] = useState("");
   const [loading, setLoading] = useState(true);
   const axiosPrivate = useAxiosPrivate();
-
-  const handleClick = async () => {
-    try {
-      const response = await axiosPrivate.post(`/payment/new`, {
-        appointmentId,
-        amount: total,
-      });
-      if (response?.data?.success) {
-        // console.log(response?.data?.data);
-        // redirect(response?.data?.data);
-        return window.location.replace(response?.data?.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     let isMounted = true;
@@ -43,12 +24,8 @@ const UserPay = () => {
           }
         );
         const appointmentData = response?.data?.data;
-        // if (
-        //   appointmentData?.status === "finished" ||
-        //   appointmentData?.status === "cancelled"
-        // ) {
-        //   return navigate("/notfound404");
-        // }
+        console.log(appointmentData);
+
         const totalService = appointmentData?.service?.reduce(
           (acc, curr) => acc + curr.price,
           0
@@ -60,7 +37,6 @@ const UserPay = () => {
         isMounted && setAppointmentData(response?.data?.data);
       } catch (error) {
         console.log(error);
-        // navigate("/login", { state: { from: location }, replace: true });
       } finally {
         setLoading(false);
       }
@@ -89,43 +65,55 @@ const UserPay = () => {
               {appointmentData?.appointmentId}
             </Descriptions.Item>
             <Descriptions.Item
-              label="Billing Mode"
+              label="Status"
               style={{ textAlign: "center" }}
               span={2}
             >
-              Fee-for-Service
+              <Tag color="green">
+                {appointmentData?.payment_id?.status.toUpperCase()}
+              </Tag>
             </Descriptions.Item>
-            <Descriptions.Item label="Patient Name">
+            <Descriptions.Item label="Patient Name" span={2}>
               {appointmentData?.patient_name}
-            </Descriptions.Item>
-            <Descriptions.Item label="Phone Number" span={2}>
-              {appointmentData?.user_id?.phone_number}
             </Descriptions.Item>
             <Descriptions.Item label="Email">
               {appointmentData?.user_id?.email}
             </Descriptions.Item>
-            <Descriptions.Item label="Gender" span={2}>
-              {appointmentData?.user_id?.gender}
-            </Descriptions.Item>
             <Descriptions.Item label="Services" span={2}>
               {appointmentData?.service?.map((service) => (
-                <>
+                <div key={service?.type}>
                   {service.type} - ${service.price} <br />
-                </>
+                </div>
               ))}
             </Descriptions.Item>
-            <Descriptions.Item label="Medications">
+            <Descriptions.Item label="Service Total">
+              <Tag color="green">
+                $
+                {appointmentData?.service?.reduce(
+                  (acc, curr) => acc + curr?.price,
+                  0
+                )}
+              </Tag>
+            </Descriptions.Item>
+            <Descriptions.Item label="Medications" span={2}>
               {appointmentData?.prescription_id?.medications?.map((service) => (
-                <>
-                  {service.name} <br />
-                </>
+                <div key={service?.name}>
+                  {service?.name} <br />
+                </div>
               ))}
+            </Descriptions.Item>
+            <Descriptions.Item label="Medications Total">
+              <Tag color="green">
+                ${appointmentData?.prescription_id?.price.toFixed(2)}
+              </Tag>
             </Descriptions.Item>
             <Descriptions.Item label="Total" span={3}>
-              ${total}
+              <Tag color="green" style={{ fontSize: "15px" }}>
+                ${total}
+              </Tag>
             </Descriptions.Item>
           </Descriptions>
-          <br />
+          {/* <br />
           <Button
             type="primary"
             style={{ background: "#1e8ed8", width: "100%", maxWidth: 600 }}
@@ -134,11 +122,11 @@ const UserPay = () => {
           >
             {" "}
             PURCHASE
-          </Button>
+          </Button> */}
         </>
       )}
     </>
   );
 };
 
-export default UserPay;
+export default Billing;

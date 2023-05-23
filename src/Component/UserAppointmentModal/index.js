@@ -11,7 +11,7 @@ import {
   Input,
   Modal,
   Select,
-  notification
+  notification,
 } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,6 @@ const UserAppointmentModal = () => {
     isModalOpen,
     setIsModalOpen,
     selectedDoctor,
-    setSelectedDoctor,
     doctorName,
     setDoctorName,
     currentUser,
@@ -54,8 +53,8 @@ const UserAppointmentModal = () => {
     setSelectedDate(null);
     setSelectedTime(null);
     setDoctorName("");
-    form.resetFields();
     setIsModalOpen(false);
+    form.resetFields();
     // setAdd(false);
   };
 
@@ -284,7 +283,11 @@ const UserAppointmentModal = () => {
               <Form.Item>
                 <Button
                   type="default"
-                  style={{ background: "#e1f1fd" }}
+                  style={{
+                    background: "#e1f1fd",
+                    width: "100%",
+                    marginLeft: "25%",
+                  }}
                   htmlType="submit"
                 >
                   New Appointment

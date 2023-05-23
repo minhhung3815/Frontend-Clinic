@@ -1,12 +1,10 @@
-import { Space, Table, Tag, Button, notification } from "antd";
+import { Space, Table, Tag, notification } from "antd";
 import {
-  MoreOutlined,
-  UserAddOutlined,
   EditOutlined,
   DeleteOutlined,
-  FileTextOutlined,
   EyeOutlined,
   DownloadOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import { useNavigate } from "react-router-dom";
@@ -101,6 +99,34 @@ const UserTableAppointment = () => {
     setCurrentUser({ email: auth?.email, username: auth?.username });
   }
 
+  const handleDownload = async (data) => {
+    try {
+      // console.log(data);
+      if (!data?.prescription_id) {
+        return notification.warning({
+          message: "Warning",
+          description: "Appointment has no prescription",
+        });
+      }
+      const response = await axiosPrivate.get(
+        `/prescription/download/${data?._id}`,
+        { responseType: "blob" }
+      );
+      const file = new Blob([response.data], { type: "application/pdf" });
+
+      const fileURL = URL.createObjectURL(file);
+
+      const link = document.createElement("a");
+      link.href = fileURL;
+      link.target = "_blank";
+      link.download = "prescription.pdf";
+
+      link.click();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const columns = [
     {
       title: "ID",
@@ -179,16 +205,11 @@ const UserTableAppointment = () => {
             <EyeOutlined
               style={{ color: "blue", fontSize: "20" }}
               onClick={() => {
-                console.log(record);
+                navigate(`/billing/${record?._id}`);
               }}
             />
           )}
         </div>
-        // <EditOutlined
-        //   onClick={() => {
-        //     handleMakePayment(record._id);
-        //   }}
-        // />
       ),
     },
     {
@@ -199,20 +220,22 @@ const UserTableAppointment = () => {
             type="link"
             title="Download Prescription"
             onClick={() => {
+              handleDownload(record);
               // handleAddPrescription(record?._id, record?.prescription_id);
             }}
             style={{ color: "blue", fontSize: "15px" }}
           />
           <EditOutlined
             type="link"
-            title="Edit Appointment"
+            title="Modify Appointment"
             onClick={() => {
               handleClick(record);
             }}
             style={{ color: "green", fontSize: "15px" }}
           />
-          <DeleteOutlined
+          <CloseCircleOutlined
             type="link"
+            title="Cancel Appointment"
             onClick={() => {
               handleDelete(record);
             }}
@@ -232,7 +255,8 @@ const UserTableAppointment = () => {
         currentUser,
       }}
     >
-      <Table columns={columns} dataSource={appointmentList} rowKey="_id" />;
+      <Table columns={columns} dataSource={appointmentList} rowKey="_id" />
+      ;
       <UserEditAppointmentModal />
     </NewContext.Provider>
   );

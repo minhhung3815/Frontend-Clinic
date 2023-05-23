@@ -1,29 +1,20 @@
 import {
+  MinusCircleOutlined,
+  PlusOutlined
+} from "@ant-design/icons";
+import useAxiosPrivate from "Hook/useAxiosPrivate";
+import {
   Button,
-  DatePicker,
   Form,
   Input,
   Select,
-  Upload,
-  Radio,
-  notification,
   Space,
-  AutoComplete,
-  SelectProps,
-  Avatar,
   TimePicker,
+  notification
 } from "antd";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
-import React from "react";
-import {
-  PlusOutlined,
-  MinusCircleOutlined,
-  UserOutlined,
-  MailOutlined,
-} from "@ant-design/icons";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import useAxiosPrivate from "Hook/useAxiosPrivate";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import "style.scss";
 const { Option } = Select;
 
@@ -57,7 +48,7 @@ const EditSchedule = () => {
         navigate(`/admin/schedule`);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -164,7 +155,11 @@ const EditSchedule = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
+        <Button
+          type="primary"
+          style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }}
+          htmlType="submit"
+        >
           Submit
         </Button>
       </Form.Item>

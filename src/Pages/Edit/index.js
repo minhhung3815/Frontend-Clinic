@@ -226,7 +226,7 @@ const EditUser = () => {
         />
       )}
       <Form.Item>
-        <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
+        <Button type="primary" style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }} htmlType="submit">
           Submit
         </Button>
       </Form.Item>

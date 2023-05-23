@@ -10,7 +10,7 @@ import {
   Input,
   Modal,
   Select,
-  notification
+  notification,
 } from "antd";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
@@ -27,13 +27,8 @@ const formItemLayout = {
 };
 
 const UserEditAppointmentModal = () => {
-  const {
-    isModalOpen,
-    setIsModalOpen,
-    appointmentData,
-    setAppointmentData,
-    currentUser,
-  } = useContext(NewContext);
+  const { isModalOpen, setIsModalOpen, appointmentData, setAppointmentData } =
+    useContext(NewContext);
   const [userId, setUserId] = useState("");
   const [slot, setSlot] = useState([]);
   const [service, setService] = useState([]);
@@ -52,7 +47,7 @@ const UserEditAppointmentModal = () => {
     setSelectedDate(null);
     setSelectedTime(null);
     setAppointmentData("");
-    form.resetFields();
+    // form.resetFields();
     setIsModalOpen(false);
     // setAdd(false);
   };
@@ -153,16 +148,6 @@ const UserEditAppointmentModal = () => {
       </Select.Option>
     );
   });
-  const renderOptionEmail = (user) => ({
-    key: user._id,
-    value: user.email,
-    label: (
-      <Form.Item>
-        <Avatar src={user.avatar.url} icon={<UserOutlined />} /> {user.email}
-      </Form.Item>
-    ),
-  });
-  const optionsUser = userList.map((user) => renderOptionEmail(user));
 
   useEffect(() => {
     const start = new Date(appointmentData?.startTime).toLocaleTimeString([], {

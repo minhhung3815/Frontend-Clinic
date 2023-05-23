@@ -47,11 +47,15 @@ const CreateUserAndAdmin = () => {
     formData.append("role", values.role?.toLowerCase());
     formData.append("image", values.avatar[0]?.originFileObj);
     try {
-      const response = await axiosPrivate.post(`/user/create/account`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axiosPrivate.post(
+        `/user/create/account`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       notification.success({
         message: "Success",
         description: response?.data?.data,
@@ -60,7 +64,7 @@ const CreateUserAndAdmin = () => {
       navigate(`/${values.role?.toLowerCase()}s`);
     } catch (error) {
       // console.log(error);
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -257,7 +261,11 @@ const CreateUserAndAdmin = () => {
       )}
 
       <Form.Item>
-        <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
+        <Button
+          type="primary"
+          style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }}
+          htmlType="submit"
+        >
           Submit
         </Button>
       </Form.Item>

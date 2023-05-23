@@ -50,11 +50,7 @@ const Doctors = () => {
             <p style={{ fontSize: "25px" }}>Doctors</p>
           </div>
           <div>
-            <UserAddOutlined
-              type="primary" style={{ background: "#1e8ed8" }}
-              style={{ fontSize: "16px" }}
-              onClick={handleClick}
-            />
+            <UserAddOutlined type="primary" onClick={handleClick} />
           </div>
         </div>
         {loading ? (

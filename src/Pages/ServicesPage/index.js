@@ -8,15 +8,16 @@ import NewContext from "Context/createContext";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import Loading from "Layout/Loading";
+import ServiceTable from "Component/ServiceTable";
 
-const Medicines = () => {
+const ServicesPage = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [medicineList, setMedicineList] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
 
   const handleClick = () => {
-    navigate("/admin/new-medicine");
+    navigate("/admin/new-service");
   };
 
   useEffect(() => {
@@ -25,10 +26,10 @@ const Medicines = () => {
 
     const getMedicine = async () => {
       try {
-        const response = await axiosPrivate.get("/medicine/all", {
+        const response = await axiosPrivate.get("/services/all", {
           signal: controller.signal,
         });
-        isMounted && setMedicineList(response?.data?.data);
+        isMounted && setServiceList(response?.data?.data);
       } catch (error) {
         console.log(error);
         // navigate("/login", { state: { from: location }, replace: true });
@@ -46,10 +47,10 @@ const Medicines = () => {
   }, []);
   return (
     <>
-      <NewContext.Provider value={{ medicineList, setMedicineList }}>
+      <NewContext.Provider value={{ serviceList, setServiceList }}>
         <div className="nav">
           <div>
-            <p style={{ fontSize: "25px" }}>Medicines</p>
+            <p style={{ fontSize: "25px" }}>Services</p>
           </div>
           <div>
             <PlusCircleOutlined
@@ -58,10 +59,10 @@ const Medicines = () => {
             />
           </div>
         </div>
-        {loading ? <Loading size="large" /> : <MedicineTable />}
+        {loading ? <Loading size="large" /> : <ServiceTable />}
       </NewContext.Provider>
     </>
   );
 };
 
-export default Medicines;
+export default ServicesPage;

@@ -30,11 +30,11 @@ const formItemLayout = {
     sm: { span: 16 },
   },
 };
-const EditMedicine = () => {
+const EditService = () => {
   const navigate = useNavigate();
   const params = useParams();
   const axiosPrivate = useAxiosPrivate();
-  const { medicineId } = params;
+  const { serviceId } = params;
   const [form] = Form.useForm();
   const onFinish = async (values) => {
     // console.log(values);
@@ -49,7 +49,7 @@ const EditMedicine = () => {
         navigate(-1);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       // notification.error({
       //   message: "Error",
       //   description: "Something went wrong",
@@ -60,22 +60,19 @@ const EditMedicine = () => {
 
   useEffect(() => {
     axiosPrivate
-      .get(`/medicine/detail/${medicineId}`)
+      .get(`/services/specific/${serviceId}`)
       .then((res) => {
-        const medicineData = res.data.data;
+        const serviceData = res?.data?.data;
         form.setFieldsValue({
-          name: medicineData.name,
-          price: medicineData.price,
-          expiry: moment(new Date(medicineData.expiry)),
-          manufacturer: medicineData.manufacturer,
-          quantity: medicineData.amount,
-          description: medicineData.description,
+          value: serviceData?.value,
+          price: serviceData?.price,
+          description: serviceData?.description,
         });
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [medicineId, form]);
+  }, [serviceId, form]);
   return (
     <Form
       {...formItemLayout}
@@ -86,16 +83,16 @@ const EditMedicine = () => {
       scrollToFirstError
     >
       <Form.Item
-        name="name"
-        label="Medicine"
+        name="value"
+        label="Service"
         rules={[
           {
             required: true,
-            message: "Please input medicine!",
+            message: "Please input service!",
           },
         ]}
       >
-        <Input placeholder="Medicine" />
+        <Input placeholder="Service" />
       </Form.Item>
       <Form.Item
         name="price"
@@ -119,45 +116,6 @@ const EditMedicine = () => {
       </Form.Item>
 
       <Form.Item
-        name="expiry"
-        label="Expiry Date"
-        rules={[
-          {
-            required: true,
-            message: "Please input expiry date!",
-          },
-        ]}
-      >
-        <DatePicker style={{ width: "100%" }} placeholder="Expiry Date" />
-      </Form.Item>
-
-      <Form.Item
-        name="manufacturer"
-        label="Manufacturer"
-        rules={[
-          {
-            required: true,
-            message: "Please select gender!",
-          },
-        ]}
-      >
-        <Input placeholder="Manufacturer" />
-      </Form.Item>
-
-      {/* <Form.Item
-        name="quantity"
-        label="Quantity"
-        rules={[
-          {
-            required: true,
-            message: "Please select amount!",
-          },
-        ]}
-      >
-        <Input placeholder="Amount" type="number" />
-      </Form.Item> */}
-
-      <Form.Item
         name="description"
         label="Description"
         rules={[
@@ -171,7 +129,11 @@ const EditMedicine = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }} htmlType="submit">
+        <Button
+          type="primary"
+          style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }}
+          htmlType="submit"
+        >
           Submit
         </Button>
       </Form.Item>
@@ -179,4 +141,4 @@ const EditMedicine = () => {
   );
 };
 
-export default EditMedicine;
+export default EditService;

@@ -87,21 +87,23 @@ const TableManager = () => {
       title: "Action",
       render: (_, record) => (
         <Space size="middle">
-          <EditOutlined
-            type="link"
-            onClick={() => {
-              handleClick(record._id);
-            }}
-            style={{ color: "green", fontSize: "20px" }}
-          />
           {auth.id !== record?._id ? (
-            <DeleteOutlined
-              type="link"
-              style={{ color: "red", fontSize: "20px" }}
-              onClick={() => {
-                handleDelete(record._id);
-              }}
-            />
+            <>
+              <EditOutlined
+                type="link"
+                onClick={() => {
+                  handleClick(record._id);
+                }}
+                style={{ color: "green", fontSize: "20px" }}
+              />
+              <DeleteOutlined
+                type="link"
+                style={{ color: "red", fontSize: "20px" }}
+                onClick={() => {
+                  handleDelete(record._id);
+                }}
+              />
+            </>
           ) : null}
         </Space>
       ),
@@ -117,11 +119,7 @@ const TableManager = () => {
           <p style={{ fontSize: "25px" }}>Managers</p>
         </div>
         <div>
-          <UserAddOutlined
-            type="primary"
-            style={{ background: "#1e8ed8", fontSize: "16px" }}
-            onClick={handleAdd}
-          />
+          <UserAddOutlined type="primary" onClick={handleAdd} />
         </div>
       </div>
       <Table

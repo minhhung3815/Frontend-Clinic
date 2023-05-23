@@ -16,7 +16,6 @@ import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import "style.scss";
-import locale from "antd/es/date-picker/locale/en_US";
 const { Option } = Select;
 
 const formItemLayout = {
@@ -29,7 +28,7 @@ const formItemLayout = {
     sm: { span: 16 },
   },
 };
-const NewMedicine = () => {
+const NewService = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState(null);
@@ -37,7 +36,9 @@ const NewMedicine = () => {
   const onFinish = async (values) => {
     // console.log(values);
     try {
-      const response = await axiosPrivate.post(`/medicine/new`, values);
+      const response = await axiosPrivate.post(`/services/new`, {
+        ...values,
+      });
       notification.success({
         message: "Success",
         description: response?.data?.data,
@@ -54,29 +55,6 @@ const NewMedicine = () => {
       // });
     }
   };
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const handlePreview = (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = URL.createObjectURL(file.originFileObj);
-    }
-    setPreviewImage(file.preview);
-  };
-
-  const customUpload = async (options) => {
-    const { onSuccess, onError, file } = options;
-    try {
-      onSuccess("success");
-    } catch (error) {
-      console.log(error);
-      onError("error");
-    }
-  };
   return (
     <Form
       {...formItemLayout}
@@ -87,16 +65,16 @@ const NewMedicine = () => {
       scrollToFirstError
     >
       <Form.Item
-        name="name"
-        label="Medicine"
+        name="value"
+        label="Service"
         rules={[
           {
             required: true,
-            message: "Please input medicine!",
+            message: "Please input service!",
           },
         ]}
       >
-        <Input placeholder="Medicine" />
+        <Input placeholder="Service" />
       </Form.Item>
       <Form.Item
         name="price"
@@ -118,45 +96,6 @@ const NewMedicine = () => {
           parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
         />
       </Form.Item>
-
-      <Form.Item
-        name="expiry"
-        label="Expiry Date"
-        rules={[
-          {
-            required: true,
-            message: "Please input expiry date!",
-          },
-        ]}
-      >
-        <DatePicker style={{ width: "100%" }} placeholder="Expiry Date" />
-      </Form.Item>
-
-      <Form.Item
-        name="manufacturer"
-        label="Manufacturer"
-        rules={[
-          {
-            required: true,
-            message: "Please select gender!",
-          },
-        ]}
-      >
-        <Input placeholder="Manufacturer" />
-      </Form.Item>
-      {/* 
-      <Form.Item
-        name="quantity"
-        label="Quantity"
-        rules={[
-          {
-            required: true,
-            message: "Please select amount!",
-          },
-        ]}
-      >
-        <Input placeholder="Amount" type="number" />
-      </Form.Item> */}
 
       <Form.Item
         name="description"
@@ -184,4 +123,4 @@ const NewMedicine = () => {
   );
 };
 
-export default NewMedicine;
+export default NewService;

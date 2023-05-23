@@ -1,7 +1,4 @@
-import {
-  LogoutOutlined,
-  UserOutlined
-} from "@ant-design/icons";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Footer from "Component/Footer";
 import useAuth from "Hook/useAuth";
 import Sidebar from "Layout/Sidebar";
@@ -29,7 +26,7 @@ const UserLayout = () => {
     "/admin/new-user",
     "/admin/new-doctor",
     "/admin/request/inbox",
-    "request/sent",
+    "/request/sent",
     "/admin/new-medicine",
     "/admin/new-schedule",
     "/doctor/appointments",
@@ -37,6 +34,7 @@ const UserLayout = () => {
     "/new-prescription",
     "/new-request",
     "/admin/medicines",
+    "/admin/new-service",
     "/admin/edit/account/:userId",
     "/admin/edit/doctor/:userId",
     "/admin/edit-schedule/:scheduleId",
@@ -46,6 +44,8 @@ const UserLayout = () => {
     "/admin/request/inbox/:requestId",
     "/request/sent/:requestId",
     "/admin/edit-appointment/:appointmentId",
+    "/admin/services",
+    "/admin/service/:requestId",
   ];
   const isPathMatch = (path) => {
     const matchedPath = matchPath(
@@ -113,12 +113,12 @@ const UserLayout = () => {
   };
 
   return (
-    <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
-    <Layout style={{backgroundColor:'white'}}>
-      <Layout.Header className="headerStyle">
-        <img src={NavLogo} alt="" className="Logo" />
-        <span className="spanx"></span>
-        
+    <Space direction="vertical" style={{ width: "100%" }} size={[0, 48]}>
+      <Layout style={{ backgroundColor: "white" }}>
+        <Layout.Header className="headerStyle">
+          <img src={NavLogo} alt="" className="Logo" />
+          <span className="spanx"></span>
+
           <Menu
             selectedKeys={selectedKeys}
             onClick={onClick}
@@ -130,75 +130,72 @@ const UserLayout = () => {
             }
             className="header"
           />
-        
-        <span className="spanx"></span>
-        {isLogined ? (
-          <>
+
+          <span className="spanx"></span>
+          {isLogined ? (
+            <>
+              <Menu mode="horizontal" className="header-login">
+                <Menu.SubMenu
+                  key="sub1"
+                  title={
+                    <span>
+                      <UserOutlined type="mail" />
+                    </span>
+                  }
+                >
+                  <Menu.Item
+                    onClick={onClick}
+                    key="profile"
+                    icon={<UserOutlined />}
+                  >
+                    Edit Profile
+                  </Menu.Item>
+                  <Menu.Item
+                    key="home"
+                    onClick={handleLogOut}
+                    icon={<LogoutOutlined />}
+                  >
+                    Log Out
+                  </Menu.Item>
+                </Menu.SubMenu>
+              </Menu>
+            </>
+          ) : (
             <Menu
+              onClick={onClick}
               mode="horizontal"
+              items={itemsLogin}
               className="header-login"
-            >
-              <Menu.SubMenu
-                key="sub1"
-                title={
-                  <span>
-                    <UserOutlined type="mail" />
-                  </span>
-                }
-              >
-                <Menu.Item
-                  onClick={onClick}
-                  key="profile"
-                  icon={<UserOutlined />}
-                >
-                  Edit Profile
-                </Menu.Item>
-                <Menu.Item
-                  key="home"
-                  onClick={handleLogOut}
-                  icon={<LogoutOutlined />}
-                >
-                  Log Out
-                </Menu.Item>
-              </Menu.SubMenu>
-            </Menu>
-          </>
-        ) : (
-          <Menu
-            onClick={onClick}
-            mode="horizontal"
-            items={itemsLogin}
-            className="header-login"
-          ></Menu>
-        )}
-      </Layout.Header>
+            ></Menu>
+          )}
+        </Layout.Header>
 
-      <Layout hasSider>
-        {isPathWithoutParamsMatch ? (
-          <>
-            <Sidebar />
+        <Layout hasSider>
+          {isPathWithoutParamsMatch ? (
+            <>
+              <Sidebar />
+              <Layout.Content className="contentStyle">
+                <div
+                  style={{
+                    paddingLeft: "15%",
+                    paddingTop: 20,
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
+                  <Outlet />
+                </div>
+              </Layout.Content>
+            </>
+          ) : (
             <Layout.Content className="contentStyle">
-              <div
-                style={{
-                  paddingLeft: "15%",
-                  paddingTop: 20,
-                  textAlign: "center",
-                  width: "100%",
-                }}
-              >
-                <Outlet />
-              </div>
+              <Outlet />
             </Layout.Content>
-          </>
-        ) : (
-          <Layout.Content className="contentStyle">
-            <Outlet />
-          </Layout.Content>
-        )}
-      </Layout>
+          )}
+        </Layout>
 
-      {isPathWithoutParamsMatch ? null : <Footer />} 
-    </Layout>
+        {isPathWithoutParamsMatch ? null : <Footer />}
+      </Layout>
     </Space>
   );
 };

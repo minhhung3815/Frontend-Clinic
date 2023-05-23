@@ -148,7 +148,7 @@ const DoctorAppointmentModal = () => {
       date: moment(startTime),
       slot: [moment(startTime), moment(endTime)],
     });
-  }, [doctorName, form, selectedDoctor]);
+  }, []);
 
   useEffect(() => {
     axiosPrivate

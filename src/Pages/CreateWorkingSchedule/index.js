@@ -1,7 +1,7 @@
 import {
   MinusCircleOutlined,
   PlusOutlined,
-  UserOutlined
+  UserOutlined,
 } from "@ant-design/icons";
 import useAxiosPrivate from "Hook/useAxiosPrivate";
 import {
@@ -12,7 +12,7 @@ import {
   Select,
   Space,
   TimePicker,
-  notification
+  notification,
 } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -172,7 +172,11 @@ const CreateWorkingSchedule = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" style={{ background: "#1e8ed8" }} htmlType="submit">
+        <Button
+          type="primary"
+          style={{ background: "#1e8ed8", width: "100%", marginLeft: "50%" }}
+          htmlType="submit"
+        >
           Submit
         </Button>
       </Form.Item>

@@ -45,6 +45,13 @@ import PrivateRoute from "Route/privateRoute";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./style.scss";
+import NewService from "Pages/CreateService";
+import ServicesPage from "Pages/ServicesPage";
+import EditService from "Pages/EditService";
+import CancelPayment from "Pages/CancelPayment";
+import Billing from "Pages/Billing";
+import Services from "Pages/Services/Services";
+import Service from "Component/Service/Service";
 
 const roles = {
   role1: "manager",
@@ -65,6 +72,7 @@ const App = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route element={<AppLayout />}>
         <Route path="/home" element={<Home />} />
+        <Route path="/services" element={<Service />} />
         <Route path="" element={<Navigate to="/home" />} />
         {/* <Route path="/services" element={<Services />} /> */}
         <Route path="/doctors" element={<DoctorsList />} />
@@ -91,13 +99,19 @@ const App = () => {
             <Route path="/appointment-schedule" element={<UserSchedule />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role3]} />}>
+            <Route path="/billing/:appointmentId" element={<Billing />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role3]} />}>
             <Route path="/user-payment/:appointmentId" element={<UserPay />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role3]} />}>
-            <Route path="/payment/execute-payment" element={<SuccessfulPayment />} />
+            <Route
+              path="/payment/execute-payment"
+              element={<SuccessfulPayment />}
+            />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role3]} />}>
-            <Route path="/payment/cancel-payment" element={<cA />} />
+            <Route path="/payment/cancel-payment" element={<CancelPayment />} />
           </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
             <Route path="/admin/dashboard" element={<Dashboard />} />
@@ -176,6 +190,15 @@ const App = () => {
               element={<EditRequest />}
             />
           </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+            <Route path="/admin/new-service" element={<NewService />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+            <Route path="/admin/services" element={<ServicesPage />} />
+          </Route>
+          <Route element={<PrivateRoute allowedRoles={[roles.role1]} />}>
+            <Route path="/admin/service/:serviceId" element={<EditService />} />
+          </Route>
           <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
             <Route path="request/sent" element={<SentMail />} />
           </Route>
@@ -191,9 +214,7 @@ const App = () => {
               element={<CreateWorkingSchedule />}
             />
           </Route>
-          <Route
-            element={<PrivateRoute allowedRoles={[roles.role1, roles.role2]} />}
-          >
+          <Route element={<PrivateRoute allowedRoles={[roles.role2]} />}>
             <Route
               path="doctor/appointments"
               element={<DoctorAppointments />}
